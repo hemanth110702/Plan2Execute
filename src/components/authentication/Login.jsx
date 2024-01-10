@@ -1,28 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuth } from "../../firebase/config";
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ setUser }) => {
+const Login = ({ user, setUser, setDisplayLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // useEffect to watch for changes in the user state
+    if (user) {
+      navigate("/" + user);
+    }
+  }, [user, navigate]);
 
   const login = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      setUser(()=>auth?.currentUser?.displayName);
     } catch (error) {
       console.error("Error logging in:", error.message);
     }
-    setUser(auth?.currentUser?.displayName);
   };
-
+  
   const googleLogin = async () => {
     try {
       await signInWithPopup(auth, googleAuth);
+      setUser(()=>auth?.currentUser?.displayName);
     } catch (err) {
       console.log(err);
     }
-    setUser(auth?.currentUser?.displayName);
   };
 
   return (
@@ -51,7 +60,7 @@ const Login = ({ setUser }) => {
         <br />
         <p>Forgot Password?</p>
         <button onClick={login}>Login</button>
-        <button>Register</button>
+        <button onClick={() => setDisplayLogin(false)}>Register</button>
         <hr />
         <button onClick={googleLogin}>SignIn with Google</button>
       </form>

@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth, googleAuth } from "../../firebase/config";
 
-const Register = () => {
+const Register = ({ setDisplayLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -44,7 +44,7 @@ const Register = () => {
   return (
     <div>
       <h2>Create an account</h2>
-      <form onSubmit={handleSignUp}>
+      <form>
         <label>
           Email:
           <input
@@ -75,11 +75,11 @@ const Register = () => {
           />
         </label>{" "}
         <br />
-        <button type="submit">Register</button>
+        <button onClick={handleSignUp}>Register</button>
         <br />
-        <button>Login</button>
+        <button onClick={() => setDisplayLogin(true)}>Login</button>
         <hr />
-        <button onClick={googleRegister}>Continue with Google</button>
+        <button onClick={googleRegister}>Register with Google</button>
       </form>
     </div>
   );

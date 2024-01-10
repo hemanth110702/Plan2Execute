@@ -5,26 +5,20 @@ import Login from "./components/authentication/Login";
 import Register from "./components/authentication/Register";
 import ForgotPwd from "./components/authentication/ForgotPwd";
 import "./App.css";
+import Plans from "./components/Plans";
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
 
 function App() {
+
   const [user, setUser] = useState(auth?.currentUser?.displayName);
   console.log(auth?.currentUser?.email);
 
-  const logout = () => {
-    try {
-      signOut(auth);
-    } catch (err) {
-      console.log("logout error: ", err);
-    }
-    setUser(auth?.currentUser?.displayName)
-  };
   return (
-    <>
-      <h1>Plan2Execute</h1>
-      <button onClick={logout}>Logout</button>
-      <h1>{user}</h1>
-      <Login setUser={setUser} />
-    </>
+    <Routes>
+      <Route path="/" element={<Home user={user} setUser={setUser} />} />
+      <Route path="/:id" element={<Plans user={user} setUser={setUser} />} />
+    </Routes>
   );
 }
 
