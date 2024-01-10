@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleAuth } from "../../firebase/config";
 
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
@@ -53,7 +53,7 @@ const Login = ({ setUser }) => {
         <button onClick={login}>Login</button>
         <button>Register</button>
         <hr />
-        <button onClick={googleLogin}>Sign In with Google</button>
+        <button onClick={googleLogin}>SignIn with Google</button>
       </form>
     </div>
   );

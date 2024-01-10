@@ -1,10 +1,10 @@
 import { useState } from "react";
-import "./App.css";
-import Login from "./components/authentication/Login";
-import Register from "./components/authentication/Register";
 import { auth } from "./firebase/config";
 import { signOut } from "firebase/auth";
+import Login from "./components/authentication/Login";
+import Register from "./components/authentication/Register";
 import ForgotPwd from "./components/authentication/ForgotPwd";
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState(auth?.currentUser?.displayName);
@@ -16,6 +16,7 @@ function App() {
     } catch (err) {
       console.log("logout error: ", err);
     }
+    setUser(auth?.currentUser?.displayName)
   };
   return (
     <>

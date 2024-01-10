@@ -16,7 +16,6 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -27,7 +26,6 @@ const Register = () => {
       await updateProfile(userCredential.user, {
         displayName: displayName,
       });
-
       signOut(auth);
     } catch (error) {
       console.error("Error signing up:", error.message);
