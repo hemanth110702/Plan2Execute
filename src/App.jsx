@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { auth } from "./firebase/config";
-import { signOut } from "firebase/auth";
-import Login from "./components/authentication/Login";
-import Register from "./components/authentication/Register";
-import ForgotPwd from "./components/authentication/ForgotPwd";
 import "./App.css";
 import Plans from "./components/Plans";
 import { Route, Routes } from "react-router-dom";

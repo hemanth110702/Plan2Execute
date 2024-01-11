@@ -4,10 +4,13 @@ import BdayPlan from "./BdayPlan";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
+import UpcomingPlans from "./UpcomingPlans";
+import TodaysPlan from "./TodaysPlan";
 
 const Plans = ({ user, setUser }) => {
   const navigate = useNavigate();
-
+  const [showCreatePlan, setShowCreatePlan] = useState(false);
+  const [plans, setPlans] = useState({});
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -18,6 +21,14 @@ const Plans = ({ user, setUser }) => {
 
     return () => unsubscribe();
   }, [navigate, setUser]);
+
+  useEffect(() => {
+    console.log(user);
+  });
+
+  useEffect(() => {
+    console.log(plans);
+  }, [plans]);
 
   const logout = () => {
     try {
@@ -38,10 +49,23 @@ const Plans = ({ user, setUser }) => {
         </div>
       </nav>
       <div>
-        <button>Add Plan</button>
-        <CreatePlan />
+        <h1>Quote of the day</h1>
+      </div>
+      <button onClick={() => setShowCreatePlan(true)}>Add Plan</button>
+      <div>
+        <div className="plans-display">
+          <UpcomingPlans />
+          <TodaysPlan />
+        </div>
         <BdayPlan />
       </div>
+      {showCreatePlan && (
+        <CreatePlan
+          setShowCreatePlan={setShowCreatePlan}
+          plans={plans}
+          setPlans={setPlans}
+        />
+      )}
     </div>
   );
 };
