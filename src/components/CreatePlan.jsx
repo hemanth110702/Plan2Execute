@@ -1,26 +1,16 @@
-import React from "react";
-
 const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
   const addPlan = (e) => {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
-    console.log([...formData.entries()]);
     const displayName = formData.get("display-name");
     const displayContent = formData.get("display-content");
     const planDate = formData.get("date");
     const startTime = formData.get("start-time");
     const endTime = formData.get("end-time");
     const eventType = formData.get("eventType");
-    console.log("checking", planDate, plans);
-    let isDatePresent = false;
-    for (let day in Object.keys(plans)) {
-      if (day === planDate) {
-        isDatePresent = true;
-        break;
-      }
-    }
+
     if (planDate in plans) {
-      console.log("yes there is the same date");
       let newPlan = Object.assign({}, plans);
       for (let plan in plans) {
         if (plan === planDate) {
@@ -53,7 +43,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
   };
 
   return (
-    <div className="createplan-container">
+    <div className="create-plan-container">
       <form onSubmit={addPlan}>
         Display Name:
         <input type="text" name="display-name" placeholder="Name" /> <br />
@@ -78,10 +68,6 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
         <label>
           <input type="radio" name="eventType" value="Bills" />
           Bills
-        </label>
-        <label>
-          <input type="radio" name="eventType" value="Entertainment" />
-          Entertainment
         </label>
         <label>
           <input type="radio" name="eventType" value="Other" />

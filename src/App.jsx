@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { auth } from "./firebase/config";
-import "./App.css";
-import Plans from "./components/Plans";
 import { Route, Routes } from "react-router-dom";
+import { auth } from "./firebase/config";
+import Plans from "./components/Plans";
 import Home from "./components/Home";
+import "./App.css";
 
 function App() {
-
   const [user, setUser] = useState(auth?.currentUser?.displayName);
-  console.log(auth?.currentUser?.email);
 
   return (
     <Routes>

@@ -36,27 +36,39 @@ body {
   gap: 2rem;
 }
 
-.upcomingplans-container {
-  /* width: 350px;
-  height: 500px; */
-  background-color: green;
+.upcoming-container {
+  background-color: orange;
 }
 
-.todaysplans-container {
-  /* width: 350px;
-  height: 500px; */
-  background-color: blue;
+/* -- MyPlans -------------------------------------------------- */
+
+.my-plans-container {
+  background-color: yellow;
 }
 
-.plans-display {
+.my-plans-container > .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date-container {
+  text-align: end;
+}
+
+.plans-panel {
   display: grid;
   grid-template-columns: 30% 70%;
 }
 
-.createplan-container {
+.create-plan-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate();
-  background-color: yellow;
+  background-color: rgb(34, 0, 255);
+}
+
+.quote-container {
+  background-color: rgb(43, 214, 226);
 }

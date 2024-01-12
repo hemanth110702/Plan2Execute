@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
-import CreatePlan from "./CreatePlan";
-import BdayPlan from "./BdayPlan";
+import { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
+import CreatePlan from "./CreatePlan";
+import BdayPlan from "./BdayPlan";
 import UpcomingPlans from "./UpcomingPlans";
 import TodaysPlan from "./TodaysPlan";
+import Quote from "./Quote";
+import Upcoming from "./Upcoming";
+import MyPlans from "./MyPlans";
 
 const Plans = ({ user, setUser }) => {
+
   const navigate = useNavigate();
   const [showCreatePlan, setShowCreatePlan] = useState(false);
   const [plans, setPlans] = useState({});
+
+  // navigate to home, when user logout
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -18,17 +24,8 @@ const Plans = ({ user, setUser }) => {
         setUser(null);
       }
     });
-
-    return () => unsubscribe();
+    return () => unsubscribe(); 
   }, [navigate, setUser]);
-
-  useEffect(() => {
-    console.log(user);
-  });
-
-  useEffect(() => {
-    console.log(plans);
-  }, [plans]);
 
   const logout = () => {
     try {
@@ -39,6 +36,10 @@ const Plans = ({ user, setUser }) => {
     setUser(auth?.currentUser?.displayName);
   };
 
+  useEffect(()=>{
+    console.log(plans);
+  }, [plans])
+
   return (
     <div className="plans-container">
       <nav className="plans-nav">
@@ -48,14 +49,14 @@ const Plans = ({ user, setUser }) => {
           <button onClick={logout}>Logout</button>
         </div>
       </nav>
-      <div>
-        <h1>Quote of the day</h1>
-      </div>
+      <Quote />
       <button onClick={() => setShowCreatePlan(true)}>Add Plan</button>
       <div>
-        <div className="plans-display">
-          <UpcomingPlans plans={plans} />
-          <TodaysPlan plans={plans} />
+        <div className="plans-panel">
+          <Upcoming />
+          <MyPlans plans={plans} />
+          {/* <UpcomingPlans plans={plans} />
+          <TodaysPlan plans={plans} /> */}
         </div>
         <BdayPlan />
       </div>

@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const TodaysPlan = ({ plans }) => {
+
+  const [presentPlans, setPresentPlan] = useState([]);
+
   let today = new Date();
   let presentDate = `${today.getFullYear()}-${
     (today.getMonth() + 1 < 10 ? "0" : "") + (today.getMonth() + 1)
@@ -10,7 +13,7 @@ const TodaysPlan = ({ plans }) => {
 
   for (let [planDate, planInfo] of Object.entries(plans)) {
     if (planDate === presentDate) {
-      presentPlan = [...planInfo];
+      presentPlans = [...planInfo];
       break;
     }
   }
@@ -19,8 +22,8 @@ const TodaysPlan = ({ plans }) => {
     <div className="todaysplans-container">
       <h1>TodaysPlan</h1>
       <div>
-        {presentPlan &&
-          presentPlan.map((plan) => (
+        {presentPlans &&
+          presentPlans.map((plan) => (
             <details>
               <summary>{plan.displayName}</summary>
               <p>{plan.displayContent}</p>
