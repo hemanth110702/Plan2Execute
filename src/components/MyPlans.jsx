@@ -28,7 +28,7 @@ const MyPlans = ({plans}) => {
       <div className="header">
         <h1>MyPlans - Today</h1>
         <div>
-          <button>Plans</button>
+          <button>Planned</button>
           <button>Executed</button>
         </div>
         <div className="date-container">

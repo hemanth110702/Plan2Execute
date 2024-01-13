@@ -4,8 +4,6 @@ import { auth } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
 import CreatePlan from "./CreatePlan";
 import BdayPlan from "./BdayPlan";
-import UpcomingPlans from "./UpcomingPlans";
-import TodaysPlan from "./TodaysPlan";
 import Quote from "./Quote";
 import Upcoming from "./Upcoming";
 import MyPlans from "./MyPlans";
@@ -53,7 +51,7 @@ const Plans = ({ user, setUser }) => {
       <button onClick={() => setShowCreatePlan(true)}>Add Plan</button>
       <div>
         <div className="plans-panel">
-          <Upcoming />
+          <Upcoming plans={plans} />
           <MyPlans plans={plans} />
           {/* <UpcomingPlans plans={plans} />
           <TodaysPlan plans={plans} /> */}

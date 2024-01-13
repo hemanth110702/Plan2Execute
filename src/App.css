@@ -36,8 +36,11 @@ body {
   gap: 2rem;
 }
 
+/* -- Upcoming ------------------------------------------------- */
+
 .upcoming-container {
   background-color: orange;
+  text-align: center;
 }
 
 /* -- MyPlans -------------------------------------------------- */
@@ -55,6 +58,7 @@ body {
 .date-container {
   text-align: end;
 }
+
 
 .plans-panel {
   display: grid;
