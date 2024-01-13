@@ -66,8 +66,8 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
           Office
         </label>
         <label>
-          <input type="radio" name="eventType" value="Bills" />
-          Bills
+          <input type="radio" name="eventType" value="Bill" />
+          Bill
         </label>
         <label>
           <input type="radio" name="eventType" value="Other" />

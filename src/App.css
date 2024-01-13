@@ -43,6 +43,12 @@ body {
   text-align: center;
 }
 
+.upcoming-container > .header {
+  display: flex;
+  justify-content: space-around;
+  
+}
+
 /* -- MyPlans -------------------------------------------------- */
 
 .my-plans-container {
