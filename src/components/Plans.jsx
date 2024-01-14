@@ -52,9 +52,7 @@ const Plans = ({ user, setUser }) => {
       <div>
         <div className="plans-panel">
           <Upcoming plans={plans} />
-          <MyPlans plans={plans} />
-          {/* <UpcomingPlans plans={plans} />
-          <TodaysPlan plans={plans} /> */}
+          <MyPlans plans={plans} setPlans={setPlans} />
         </div>
         <BdayPlan />
       </div>

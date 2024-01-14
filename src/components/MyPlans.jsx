@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { days, months } from "../staticData/CalenderCollection";
 
-const MyPlans = ({ plans }) => {
+const MyPlans = ({ plans, setPlans }) => {
   const [myPlans, setMyPlans] = useState([]);
+  const [showPlans, setShowPlans] = useState("planned");
   const [upcomingEvents, setUpcomingEvents] = useState({
     Personal: 0,
     Office: 0,
@@ -48,7 +49,27 @@ const MyPlans = ({ plans }) => {
       }
     }
     setUpcomingEvents(eventType);
+    let fd = myPlans.filter((plan) => plan.category === showPlans);
+    console.log("fd", fd);
   }, [myPlans]);
+
+  const changeCategory = (categoryType, plan) => {
+    console.log("plans", plans, "plan", plan);
+    plan.category = categoryType;
+    const tempPlans = Object.assign({}, plans);
+    for (let [planDate, planInfo] of Object.entries(tempPlans)) {
+      if (planDate === plan.planDate) {
+        for (let i = 0; i < planInfo.length; i++) {
+          if (planInfo[i].planId === plan.planId) {
+            planInfo[i].category = categoryType;
+            break;
+          }
+        }
+        break;
+      }
+    }
+    setPlans(tempPlans);
+  };
 
   return (
     <div className="my-plans-container">
@@ -61,22 +82,33 @@ const MyPlans = ({ plans }) => {
         <div>
           <button>Planned</button>
           <button>Executed</button>
+          <button>Cancelled</button>
         </div>
         <div className="date-container">
           <div>{presentYear}</div>
           <div>
-            {days[presentDay]}, {presentDate} {months[presentMonth]}{" "}
+            {days[presentDay]}, {presentDate} {months[presentMonth]}
           </div>
         </div>
       </div>
       <div className="body">
         {myPlans &&
-          myPlans.map((plan) => (
-            <details>
-              <summary>{plan.displayName}</summary>
-              <div>{plan.displayContent}</div>
-            </details>
-          ))}
+          myPlans
+            .filter((plan) => plan.category === showPlans)
+            .map((plan) => (
+              <details>
+                <summary>
+                  {plan.displayName} - {plan.eventType}
+                  <button onClick={() => changeCategory("executed", plan)}>
+                    tick
+                  </button>
+                  <button onClick={() => changeCategory("cancelled", plan)}>
+                    cross
+                  </button>
+                </summary>
+                <div>{plan.displayContent}</div>
+              </details>
+            ))}
       </div>
     </div>
   );

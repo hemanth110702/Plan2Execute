@@ -9,18 +9,21 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
     const startTime = formData.get("start-time");
     const endTime = formData.get("end-time");
     const eventType = formData.get("eventType");
+    const planId = Object.values(plans).filter(Array.isArray).length;
 
     if (planDate in plans) {
-      let newPlan = Object.assign({}, plans);
+      const newPlan = Object.assign({}, plans);
       for (let plan in plans) {
         if (plan === planDate) {
           newPlan[plan].push({
+            planId,
             displayName,
             displayContent,
             planDate,
             startTime,
             endTime,
             eventType,
+            category: "planned",
           });
           setPlans(newPlan);
         }
@@ -30,12 +33,14 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
         ...prevPlans,
         [planDate]: [
           {
+            planId,
             displayName,
             displayContent,
             planDate,
             startTime,
             endTime,
             eventType,
+            category: "planned",
           },
         ],
       }));
