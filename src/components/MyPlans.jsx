@@ -10,6 +10,11 @@ const MyPlans = ({ plans, setPlans }) => {
     Bill: 0,
     Other: 0,
   });
+  const [planCategoryCounter, setPlanCategoryCounter] = useState({
+    planned: 0,
+    executed: 0,
+    cancelled: 0,
+  });
 
   const dateToday = new Date();
   const presentYear = dateToday.getFullYear();
@@ -31,6 +36,30 @@ const MyPlans = ({ plans, setPlans }) => {
 
   useEffect(() => {
     console.log("myPlans", myPlans);
+    countEventType();
+    countCategory();
+    let fd = myPlans.filter((plan) => plan.category === showPlans);
+    console.log("fd", fd);
+  }, [myPlans]);
+
+  const countCategory = () => {
+    const counterObj = { planned: 0, executed: 0, cancelled: 0 };
+    for (let i = 0; i < myPlans.length; i++) {
+      if (myPlans[i].category === "planned") {
+        counterObj.planned += 1;
+      } else if (myPlans[i].category === "executed") {
+        counterObj.executed += 1;
+      } else {
+        counterObj.cancelled += 1;
+      }
+    }
+    setPlanCategoryCounter((prevCounter) => ({
+      ...prevCounter,
+      ...counterObj,
+    }));
+  };
+
+  const countEventType = () => {
     const eventType = {
       Personal: 0,
       Office: 0,
@@ -49,9 +78,7 @@ const MyPlans = ({ plans, setPlans }) => {
       }
     }
     setUpcomingEvents(eventType);
-    let fd = myPlans.filter((plan) => plan.category === showPlans);
-    console.log("fd", fd);
-  }, [myPlans]);
+  };
 
   const changeCategory = (categoryType, plan) => {
     console.log("plans", plans, "plan", plan);
@@ -80,9 +107,15 @@ const MyPlans = ({ plans, setPlans }) => {
           {`Prs: ${upcomingEvents["Personal"]} | Off: ${upcomingEvents["Office"]} | Bills: ${upcomingEvents["Bill"]} | Oth: ${upcomingEvents["Other"]} `}
         </h3>
         <div>
-          <button>Planned</button>
-          <button>Executed</button>
-          <button>Cancelled</button>
+          <button onClick={() => setShowPlans("planned")}>
+            Planned {planCategoryCounter.planned}
+          </button>
+          <button onClick={() => setShowPlans("executed")}>
+            Executed {planCategoryCounter.executed}
+          </button>
+          <button onClick={() => setShowPlans("cancelled")}>
+            Cancelled {planCategoryCounter.cancelled}
+          </button>
         </div>
         <div className="date-container">
           <div>{presentYear}</div>
