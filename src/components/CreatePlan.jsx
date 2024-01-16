@@ -30,6 +30,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
             eventType,
             category: "planned",
             checkListItems,
+            checkListStatus: false,
           });
           setPlans(newPlan);
         }
@@ -48,6 +49,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
             eventType,
             category: "planned",
             checkListItems,
+            checkListStatus: false,
           },
         ],
       }));

@@ -36,7 +36,7 @@ const Upcoming = ({ plans }) => {
       Personal: 0,
       Office: 0,
       Bill: 0,
-      Other: 0
+      Other: 0,
     };
     for (let i = 0; i < upcomingPlans.length; i++) {
       for (let j = 0; j < upcomingPlans[i][1].length; j++) {
@@ -45,13 +45,13 @@ const Upcoming = ({ plans }) => {
         } else if (upcomingPlans[i][1][j].eventType === "Office") {
           eventType.Office = eventType.Office + 1;
         } else if (upcomingPlans[i][1][j].eventType === "Bill") {
-          eventType.Bill = eventType.Bill + 1; 
+          eventType.Bill = eventType.Bill + 1;
         } else {
-          eventType.Other = eventType.Other + 1; 
+          eventType.Other = eventType.Other + 1;
         }
       }
     }
-    setUpcomingEvents(eventType)
+    setUpcomingEvents(eventType);
     console.log("ucp", upcomingPlans);
   }, [upcomingPlans]);
 
@@ -82,7 +82,5 @@ const Upcoming = ({ plans }) => {
     </div>
   );
 };
-
-/* {2024-01-14: Array(2), 2024-01-15: Array(1)} */
 
 export default Upcoming;

@@ -108,16 +108,29 @@ const MyPlans = ({ plans, setPlans }) => {
       }
     }
     console.log("update plan", updatePlan);
+    let checkListCounter = 0;
+
     for (let i = 0; i < updatePlan.length; i++) {
       if (plan.planId === updatePlan[i].planId) {
+
         for (let j = 0; j < updatePlan[i].checkListItems.length; j++) {
           if (j == index) {
             updatePlan[i].checkListItems[j].status =
               !updatePlan[i].checkListItems[j].status;
           }
+          if(updatePlan[i].checkListItems[j].status){
+            ++checkListCounter;
+            if(checkListCounter === updatePlan[i].checkListItems.length) {
+              updatePlan[i].checkListStatus = true;
+            } else {
+              updatePlan[i].checkListStatus = false;
+            }
+          }
         }
       }
     }
+
+    
     setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: updatePlan }));
   };
 
@@ -155,6 +168,12 @@ const MyPlans = ({ plans, setPlans }) => {
               <details>
                 <summary>
                   {plan.displayName} - {plan.eventType}
+                  <div>
+                    {plan.displayContent}{" "}
+                    {plan.checkListItems.length > 0 &&
+                      plan.checkListStatus &&
+                      "Checklist done"}{" "}
+                  </div>
                   {plan.category === "planned" ? (
                     <div>
                       <button onClick={() => changeCategory("executed", plan)}>
@@ -166,7 +185,7 @@ const MyPlans = ({ plans, setPlans }) => {
                     </div>
                   ) : null}
                 </summary>
-                <div>{plan.displayContent}</div>
+
                 <p>
                   <h4>Checklist</h4>
                   {plan.checkListItems.map((item, index) => (
