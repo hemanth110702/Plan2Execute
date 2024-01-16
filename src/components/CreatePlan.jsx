@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
+  const [checkListItem, setCheckListItem] = useState("");
+  const [checkListItems, setCheckListItems] = useState([]);
+
   const addPlan = (e) => {
     e.preventDefault();
 
@@ -24,6 +29,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
             endTime,
             eventType,
             category: "planned",
+            checkListItems,
           });
           setPlans(newPlan);
         }
@@ -41,10 +47,25 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
             endTime,
             eventType,
             category: "planned",
+            checkListItems,
           },
         ],
       }));
     }
+  };
+
+  const addChecklist = () => {
+    setCheckListItems((prevItems) => [
+      ...prevItems,
+      { checkListItem, status: "no" },
+    ]);
+    setCheckListItem("");
+    console.log("cl", checkListItem, "cls", checkListItems);
+  };
+
+  const removeChecklist = (index) => {
+    const newCheckList = checkListItems.filter((item, i)=>(i != index ) );
+    setCheckListItems(newCheckList);
   };
 
   return (
@@ -54,6 +75,23 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
         <input type="text" name="display-name" placeholder="Name" /> <br />
         Display Content:{" "}
         <textarea name="display-content" placeholder="Plan...."></textarea>
+        <br />
+        Checklist:{" "}
+        <input
+          type="text"
+          value={checkListItem}
+          onChange={(e) => setCheckListItem(e.target.value)}
+        />{" "}
+        <button onClick={addChecklist}>add</button>
+        <br />
+        you have added:
+        {checkListItems &&
+          checkListItems.map((checklist, index) => (
+            <p key={index}>
+              {checklist.checkListItem}{" "}
+              <button onClick={()=>removeChecklist(index)}>remove</button>{" "}
+            </p>
+          ))}
         <br />
         Start Date:
         <input type="date" name="date" />

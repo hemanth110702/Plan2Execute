@@ -132,14 +132,24 @@ const MyPlans = ({ plans, setPlans }) => {
               <details>
                 <summary>
                   {plan.displayName} - {plan.eventType}
-                  <button onClick={() => changeCategory("executed", plan)}>
-                    tick
-                  </button>
-                  <button onClick={() => changeCategory("cancelled", plan)}>
-                    cross
-                  </button>
+                  {plan.category === "planned" ? (
+                    <div>
+                      <button onClick={() => changeCategory("executed", plan)}>
+                        tick
+                      </button>
+                      <button onClick={() => changeCategory("cancelled", plan)}>
+                        cross
+                      </button>
+                    </div>
+                  ) : null}
                 </summary>
                 <div>{plan.displayContent}</div>
+                  <p><h4>Checklist</h4>
+                  {plan.checkListItems.map((item)=>{
+                    
+                  })}
+                  
+                  </p>
               </details>
             ))}
       </div>
