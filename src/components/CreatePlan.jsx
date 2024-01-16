@@ -13,7 +13,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
     const planDate = formData.get("date");
     const startTime = formData.get("start-time");
     const endTime = formData.get("end-time");
-    const eventType = formData.get("eventType");
+    const eventType = formData.get("eventType") || "Other";
     const planId = Object.values(plans).filter(Array.isArray).length;
 
     if (planDate in plans) {
@@ -54,17 +54,18 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
     }
   };
 
-  const addChecklist = () => {
+  const addChecklist = (e) => {
+    e.preventDefault();
     setCheckListItems((prevItems) => [
       ...prevItems,
-      { checkListItem, status: "no" },
+      { checkListItem, status: false },
     ]);
     setCheckListItem("");
     console.log("cl", checkListItem, "cls", checkListItems);
   };
 
   const removeChecklist = (index) => {
-    const newCheckList = checkListItems.filter((item, i)=>(i != index ) );
+    const newCheckList = checkListItems.filter((item, i) => i != index);
     setCheckListItems(newCheckList);
   };
 
@@ -89,7 +90,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
           checkListItems.map((checklist, index) => (
             <p key={index}>
               {checklist.checkListItem}{" "}
-              <button onClick={()=>removeChecklist(index)}>remove</button>{" "}
+              <button onClick={() => removeChecklist(index)}>remove</button>{" "}
             </p>
           ))}
         <br />
@@ -117,7 +118,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
           Other
         </label>{" "}
         <br />
-        <button type="submit">Add plan</button>
+        <input type="submit" value="add" />
         <button onClick={() => setShowCreatePlan(false)}>close</button>
       </form>
     </div>

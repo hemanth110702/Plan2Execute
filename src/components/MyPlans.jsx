@@ -98,6 +98,29 @@ const MyPlans = ({ plans, setPlans }) => {
     setPlans(tempPlans);
   };
 
+  const updateCheckList = (index, plan) => {
+    console.log("plan", plan, "plans", plans);
+    let updatePlan;
+    for (let [planDate, planInfo] of Object.entries(plans)) {
+      if (planDate === plan.planDate) {
+        updatePlan = planInfo;
+        break;
+      }
+    }
+    console.log("update plan", updatePlan);
+    for (let i = 0; i < updatePlan.length; i++) {
+      if (plan.planId === updatePlan[i].planId) {
+        for (let j = 0; j < updatePlan[i].checkListItems.length; j++) {
+          if (j == index) {
+            updatePlan[i].checkListItems[j].status =
+              !updatePlan[i].checkListItems[j].status;
+          }
+        }
+      }
+    }
+    setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: updatePlan }));
+  };
+
   return (
     <div className="my-plans-container">
       <div className="header">
@@ -144,12 +167,22 @@ const MyPlans = ({ plans, setPlans }) => {
                   ) : null}
                 </summary>
                 <div>{plan.displayContent}</div>
-                  <p><h4>Checklist</h4>
-                  {plan.checkListItems.map((item)=>{
-                    
-                  })}
-                  
-                  </p>
+                <p>
+                  <h4>Checklist</h4>
+                  {plan.checkListItems.map((item, index) => (
+                    <div>
+                      {item.checkListItem}{" "}
+                      <div>
+                        status:{" "}
+                        <input
+                          type="checkbox"
+                          onChange={() => updateCheckList(index, plan)}
+                          checked={item["status"]}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </p>
               </details>
             ))}
       </div>
