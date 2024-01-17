@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { days, months } from "../staticData/CalenderCollection";
+import EditPlan from "./EditPlan";
 
 const MyPlans = ({ plans, setPlans }) => {
   const [myPlans, setMyPlans] = useState([]);
   const [showPlans, setShowPlans] = useState("planned");
+  const [showEditPlan, setShowEditPlan] = useState(false);
+  const [editPlanData, setEditPlanData] = useState(null)
   const [upcomingEvents, setUpcomingEvents] = useState({
     Personal: 0,
     Office: 0,
@@ -138,10 +141,10 @@ const MyPlans = ({ plans, setPlans }) => {
     for (let [planDate, planInfo] of Object.entries(plans)) {
       if (planDate === plan.planDate) {
         tempPlan = planInfo;
-        break; // Add a break statement to exit the loop
+        break;
       }
     }
-    let updatedTempPlan = tempPlan.filter((pp) => pp.planId !== plan.planId); // Use pp.planId
+    let updatedTempPlan = tempPlan.filter((pp) => pp.planId !== plan.planId);
     console.log("tempPlan", tempPlan);
     setPlans((prevPlans) => ({
       ...prevPlans,
@@ -149,6 +152,12 @@ const MyPlans = ({ plans, setPlans }) => {
     }));
     console.log("plans", plans);
   };
+
+  const editPlan = (plan) =>{
+    setEditPlanData(plan);
+    setShowEditPlan(true);
+  }
+
 
   return (
     <div className="my-plans-container">
@@ -198,7 +207,7 @@ const MyPlans = ({ plans, setPlans }) => {
                       <button onClick={() => changeCategory("cancelled", plan)}>
                         cross
                       </button>
-                      <button>edit</button>
+                      <button onClick={()=>editPlan(plan)}>edit</button>
                       <button onClick={() => deletePlan(plan)}>delete</button>
                     </div>
                   ) : null}
@@ -223,6 +232,7 @@ const MyPlans = ({ plans, setPlans }) => {
               </details>
             ))}
       </div>
+      {showEditPlan && <EditPlan editPlanData={editPlanData} plans={plans} setShowEditPlan={setShowEditPlan} setPlans={setPlans} />}
     </div>
   );
 };

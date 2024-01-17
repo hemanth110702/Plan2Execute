@@ -3,6 +3,7 @@ import { useState } from "react";
 const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
   const [checkListItem, setCheckListItem] = useState("");
   const [checkListItems, setCheckListItems] = useState([]);
+  const [showEditPlan, setShowEditPlan] = useState(false);
 
   const addPlan = (e) => {
     e.preventDefault();
@@ -118,7 +119,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
         <label>
           <input type="radio" name="eventType" value="Other" />
           Other
-        </label>{" "}
+        </label>
         <br />
         <input type="submit" value="add" />
         <button onClick={() => setShowCreatePlan(false)}>close</button>
