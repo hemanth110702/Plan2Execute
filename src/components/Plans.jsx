@@ -42,6 +42,11 @@ const Plans = ({ user, setUser }) => {
     <div className="plans-container">
       <nav className="plans-nav">
         <h1>Plan2Execute</h1>
+        <div className="nav-sections"> 
+          <p>All plans</p>
+          <p>Birthdays</p>
+          <p>Notes</p>
+        </div>
         <div className="nav-user">
           <h3>{user}</h3>
           <button onClick={logout}>Logout</button>

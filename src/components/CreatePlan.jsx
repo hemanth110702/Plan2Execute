@@ -14,7 +14,7 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
     const startTime = formData.get("start-time");
     const endTime = formData.get("end-time");
     const eventType = formData.get("eventType") || "Other";
-    const planId = Object.values(plans).filter(Array.isArray).length;
+    const planId = Date.now();
 
     if (planDate in plans) {
       const newPlan = Object.assign({}, plans);

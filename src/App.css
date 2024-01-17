@@ -29,6 +29,11 @@ body {
   background-color: blueviolet;
 }
 
+.nav-sections {
+  display: flex;
+  gap: 1rem;
+}
+
 .nav-user {
   display: flex;
   justify-content: center;

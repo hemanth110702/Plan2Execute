@@ -112,15 +112,14 @@ const MyPlans = ({ plans, setPlans }) => {
 
     for (let i = 0; i < updatePlan.length; i++) {
       if (plan.planId === updatePlan[i].planId) {
-
         for (let j = 0; j < updatePlan[i].checkListItems.length; j++) {
           if (j == index) {
             updatePlan[i].checkListItems[j].status =
               !updatePlan[i].checkListItems[j].status;
           }
-          if(updatePlan[i].checkListItems[j].status){
+          if (updatePlan[i].checkListItems[j].status) {
             ++checkListCounter;
-            if(checkListCounter === updatePlan[i].checkListItems.length) {
+            if (checkListCounter === updatePlan[i].checkListItems.length) {
               updatePlan[i].checkListStatus = true;
             } else {
               updatePlan[i].checkListStatus = false;
@@ -130,8 +129,25 @@ const MyPlans = ({ plans, setPlans }) => {
       }
     }
 
-    
     setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: updatePlan }));
+  };
+
+  const deletePlan = (plan) => {
+    console.log("plan", plan, "plans", plans);
+    let tempPlan;
+    for (let [planDate, planInfo] of Object.entries(plans)) {
+      if (planDate === plan.planDate) {
+        tempPlan = planInfo;
+        break; // Add a break statement to exit the loop
+      }
+    }
+    let updatedTempPlan = tempPlan.filter((pp) => pp.planId !== plan.planId); // Use pp.planId
+    console.log("tempPlan", tempPlan);
+    setPlans((prevPlans) => ({
+      ...prevPlans,
+      [plan.planDate]: updatedTempPlan,
+    }));
+    console.log("plans", plans);
   };
 
   return (
@@ -182,6 +198,8 @@ const MyPlans = ({ plans, setPlans }) => {
                       <button onClick={() => changeCategory("cancelled", plan)}>
                         cross
                       </button>
+                      <button>edit</button>
+                      <button onClick={() => deletePlan(plan)}>delete</button>
                     </div>
                   ) : null}
                 </summary>
