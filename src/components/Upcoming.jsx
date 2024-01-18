@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import EditPlan from "./EditPlan";
 import { deletePlan, editPlan } from "../functions/operations";
+import EditPlan from "./EditPlan";
 
 const Upcoming = ({ plans, setPlans }) => {
   const [upcomingPlans, setUpcomingPlans] = useState([]);

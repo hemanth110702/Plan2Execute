@@ -1,11 +1,10 @@
-
 // Edit operation
 export const editPlan = (plan, setEditPlanData, setShowEditPlan) => {
   setEditPlanData(plan);
   setShowEditPlan(true);
 };
 
-//Delete operation
+// Delete operation
 export const deletePlan = (plan, plans, setPlans) => {
   console.log("plan", plan, "plans", plans);
 

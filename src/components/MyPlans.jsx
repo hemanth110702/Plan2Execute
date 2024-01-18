@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { days, months } from "../staticData/CalenderCollection";
+import { deletePlan, editPlan } from "../functions/operations";
 import EditPlan from "./EditPlan";
 import CountdownTimer from "./CountdownTimer";
-import { deletePlan, editPlan } from "../functions/operations";
 
 const MyPlans = ({ plans, setPlans }) => {
   const [myPlans, setMyPlans] = useState([]);
