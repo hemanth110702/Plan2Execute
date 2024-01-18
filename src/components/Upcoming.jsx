@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import EditPlan from "./EditPlan";
 
-const Upcoming = ({ plans }) => {
+const Upcoming = ({ plans, setPlans }) => {
   const [upcomingPlans, setUpcomingPlans] = useState([]);
-
+  const [showEditPlan, setShowEditPlan] = useState(false);
+  const [editPlanData, setEditPlanData] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState({
     Personal: 0,
     Office: 0,
@@ -55,6 +57,41 @@ const Upcoming = ({ plans }) => {
     console.log("ucp", upcomingPlans);
   }, [upcomingPlans]);
 
+  const editPlan = (plan) => {
+    setEditPlanData(plan);
+    setShowEditPlan(true);
+  };
+
+ const deletePlan = (plan) => {
+   console.log("plan", plan, "plans", plans);
+
+   let tempPlan;
+   for (let [planDate, planInfo] of Object.entries(plans)) {
+     if (planDate === plan.planDate) {
+       tempPlan = planInfo;
+       break;
+     }
+   }
+
+   let updatedTempPlan = tempPlan.filter((pp) => pp.planId !== plan.planId);
+   console.log("tempPlan", tempPlan);
+
+   // If updatedTempPlan is empty, remove the key from the plans object
+   if (updatedTempPlan.length === 0) {
+     const { [plan.planDate]: omit, ...restPlans } = plans;
+     setPlans(restPlans);
+   } else {
+     // Otherwise, update the plans object with the new array
+     setPlans((prevPlans) => ({
+       ...prevPlans,
+       [plan.planDate]: updatedTempPlan,
+     }));
+   }
+
+   console.log("plans", plans);
+ };
+
+
   return (
     <div className="upcoming-container">
       <div className="header">
@@ -69,10 +106,24 @@ const Upcoming = ({ plans }) => {
           <details>
             <summary>{planDate[0]}</summary>
             <div>
-              {planDate[1].map((plans) => (
+              {planDate[1].map((plan) => (
                 <details>
-                  <summary>{plans.displayName}</summary>
-                  <p>{plans.displayContent}</p>
+                  <summary>
+                    {plan.displayName}{" "}
+                    <button onClick={() => editPlan(plan)}>edit</button>{" "}
+                    <button onClick={() => deletePlan(plan)}>delete</button>
+                  </summary>
+                  <div>
+                    <p>{plan.displayContent}</p>
+                  </div>
+                  {showEditPlan && (
+                    <EditPlan
+                      editPlanData={editPlanData}
+                      plans={plans}
+                      setShowEditPlan={setShowEditPlan}
+                      setPlans={setPlans}
+                    />
+                  )}
                 </details>
               ))}
             </div>

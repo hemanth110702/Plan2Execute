@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { days, months } from "../staticData/CalenderCollection";
 import EditPlan from "./EditPlan";
 import CountdownTimer from "./CountdownTimer";
-import Countdown from "./Countdown";
 
 const MyPlans = ({ plans, setPlans }) => {
   const [myPlans, setMyPlans] = useState([]);
@@ -139,6 +138,7 @@ const MyPlans = ({ plans, setPlans }) => {
 
   const deletePlan = (plan) => {
     console.log("plan", plan, "plans", plans);
+
     let tempPlan;
     for (let [planDate, planInfo] of Object.entries(plans)) {
       if (planDate === plan.planDate) {
@@ -146,12 +146,22 @@ const MyPlans = ({ plans, setPlans }) => {
         break;
       }
     }
+
     let updatedTempPlan = tempPlan.filter((pp) => pp.planId !== plan.planId);
     console.log("tempPlan", tempPlan);
-    setPlans((prevPlans) => ({
-      ...prevPlans,
-      [plan.planDate]: updatedTempPlan,
-    }));
+
+    // If updatedTempPlan is empty, remove the key from the plans object
+    if (updatedTempPlan.length === 0) {
+      const { [plan.planDate]: omit, ...restPlans } = plans;
+      setPlans(restPlans);
+    } else {
+      // Otherwise, update the plans object with the new array
+      setPlans((prevPlans) => ({
+        ...prevPlans,
+        [plan.planDate]: updatedTempPlan,
+      }));
+    }
+
     console.log("plans", plans);
   };
 

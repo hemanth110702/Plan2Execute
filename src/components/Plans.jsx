@@ -56,7 +56,7 @@ const Plans = ({ user, setUser }) => {
       <button onClick={() => setShowCreatePlan(true)}>Add Plan</button>
       <div>
         <div className="plans-panel">
-          <Upcoming plans={plans} />
+          <Upcoming plans={plans} setPlans={setPlans} />
           <MyPlans plans={plans} setPlans={setPlans} />
         </div>
         <BdayPlan />
