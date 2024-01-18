@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { days, months } from "../staticData/CalenderCollection";
 import EditPlan from "./EditPlan";
 import CountdownTimer from "./CountdownTimer";
+import { deletePlan, editPlan } from "../functions/operations";
 
 const MyPlans = ({ plans, setPlans }) => {
   const [myPlans, setMyPlans] = useState([]);
@@ -136,40 +137,6 @@ const MyPlans = ({ plans, setPlans }) => {
     setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: updatePlan }));
   };
 
-  const deletePlan = (plan) => {
-    console.log("plan", plan, "plans", plans);
-
-    let tempPlan;
-    for (let [planDate, planInfo] of Object.entries(plans)) {
-      if (planDate === plan.planDate) {
-        tempPlan = planInfo;
-        break;
-      }
-    }
-
-    let updatedTempPlan = tempPlan.filter((pp) => pp.planId !== plan.planId);
-    console.log("tempPlan", tempPlan);
-
-    // If updatedTempPlan is empty, remove the key from the plans object
-    if (updatedTempPlan.length === 0) {
-      const { [plan.planDate]: omit, ...restPlans } = plans;
-      setPlans(restPlans);
-    } else {
-      // Otherwise, update the plans object with the new array
-      setPlans((prevPlans) => ({
-        ...prevPlans,
-        [plan.planDate]: updatedTempPlan,
-      }));
-    }
-
-    console.log("plans", plans);
-  };
-
-  const editPlan = (plan) => {
-    setEditPlanData(plan);
-    setShowEditPlan(true);
-  };
-
   return (
     <div className="my-plans-container">
       <div className="header">
@@ -226,8 +193,16 @@ const MyPlans = ({ plans, setPlans }) => {
                       <button onClick={() => changeCategory("cancelled", plan)}>
                         cross
                       </button>
-                      <button onClick={() => editPlan(plan)}>edit</button>
-                      <button onClick={() => deletePlan(plan)}>delete</button>
+                      <button
+                        onClick={() =>
+                          editPlan(plan, setEditPlanData, setShowEditPlan)
+                        }
+                      >
+                        edit
+                      </button>
+                      <button onClick={() => deletePlan(plan, plans, setPlans)}>
+                        delete
+                      </button>
                     </div>
                   ) : null}
                 </summary>
