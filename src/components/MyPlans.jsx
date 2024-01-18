@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { days, months } from "../staticData/CalenderCollection";
 import EditPlan from "./EditPlan";
+import CountdownTimer from "./CountdownTimer";
+import Countdown from "./Countdown";
 
 const MyPlans = ({ plans, setPlans }) => {
   const [myPlans, setMyPlans] = useState([]);
   const [showPlans, setShowPlans] = useState("planned");
   const [showEditPlan, setShowEditPlan] = useState(false);
-  const [editPlanData, setEditPlanData] = useState(null)
+  const [editPlanData, setEditPlanData] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState({
     Personal: 0,
     Office: 0,
@@ -153,11 +155,10 @@ const MyPlans = ({ plans, setPlans }) => {
     console.log("plans", plans);
   };
 
-  const editPlan = (plan) =>{
+  const editPlan = (plan) => {
     setEditPlanData(plan);
     setShowEditPlan(true);
-  }
-
+  };
 
   return (
     <div className="my-plans-container">
@@ -199,6 +200,14 @@ const MyPlans = ({ plans, setPlans }) => {
                       plan.checkListStatus &&
                       "Checklist done"}{" "}
                   </div>
+                  <div>
+                    {plan.startTime && plan.endTime && (
+                      <CountdownTimer
+                        startTime={plan.startTime}
+                        endTime={plan.endTime}
+                      />
+                    )}
+                  </div>
                   {plan.category === "planned" ? (
                     <div>
                       <button onClick={() => changeCategory("executed", plan)}>
@@ -207,7 +216,7 @@ const MyPlans = ({ plans, setPlans }) => {
                       <button onClick={() => changeCategory("cancelled", plan)}>
                         cross
                       </button>
-                      <button onClick={()=>editPlan(plan)}>edit</button>
+                      <button onClick={() => editPlan(plan)}>edit</button>
                       <button onClick={() => deletePlan(plan)}>delete</button>
                     </div>
                   ) : null}
@@ -232,7 +241,14 @@ const MyPlans = ({ plans, setPlans }) => {
               </details>
             ))}
       </div>
-      {showEditPlan && <EditPlan editPlanData={editPlanData} plans={plans} setShowEditPlan={setShowEditPlan} setPlans={setPlans} />}
+      {showEditPlan && (
+        <EditPlan
+          editPlanData={editPlanData}
+          plans={plans}
+          setShowEditPlan={setShowEditPlan}
+          setPlans={setPlans}
+        />
+      )}
     </div>
   );
 };
