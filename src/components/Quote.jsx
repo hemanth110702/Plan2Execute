@@ -8,6 +8,7 @@ const api = axios.create({
 
 const Quote = () => {
   const [quote, setQuote] = useState({ author: "", content: "" });
+  console.log(quotesData.length);
 
   const fetchMotivationalQuote = async () => {
     try {
@@ -19,7 +20,7 @@ const Quote = () => {
         "Error fetching motivational quote from quotable api:",
         error
       );
-      const randNum = Math.floor(Math.random() * 227);
+      const randNum = Math.floor(Math.random() * 21);
       setQuote({
         author: quotesData[randNum].author,
         content: quotesData[randNum].content,
