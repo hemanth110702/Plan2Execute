@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BdayPlan = () => {
+const Birthdays = () => {
   return (
     <div>
       <form action="#">
@@ -14,4 +14,4 @@ const BdayPlan = () => {
   )
 }
 
-export default BdayPlan
+export default Birthdays

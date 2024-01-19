@@ -8,7 +8,6 @@ const api = axios.create({
 
 const Quote = () => {
   const [quote, setQuote] = useState({ author: "", content: "" });
-  console.log(quotesData.length);
 
   const fetchMotivationalQuote = async () => {
     try {

@@ -11,7 +11,7 @@ const Login = ({ user, setUser, setDisplayLogin }) => {
   useEffect(() => {
     // useEffect to watch for changes in the user state
     if (user) {
-      navigate("/" + user);
+      navigate("/" + user + "/plans");
     }
   }, [user, navigate]);
 
