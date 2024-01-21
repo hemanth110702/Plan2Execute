@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePlan, editPlan } from "../functions/operations";
+import { deletePlan, editPlan } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 
 const Upcoming = ({ plans, setPlans }) => {

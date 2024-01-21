@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { days, months } from "../staticData/CalenderCollection";
-import { deletePlan, editPlan } from "../functions/operations";
+import { days, months } from "../../staticData/CalenderCollection";
+import { deletePlan, editPlan } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 import CountdownTimer from "./CountdownTimer";
 

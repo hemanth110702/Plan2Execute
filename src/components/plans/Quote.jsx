@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { quotesData } from "../staticData/QuotesData";
+import { quotesData } from "../../staticData/QuotesData";
 import axios from "axios";
 
 const api = axios.create({

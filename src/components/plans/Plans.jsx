@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-
-import { Link, useNavigate } from "react-router-dom";
 import CreatePlan from "./CreatePlan";
 import Quote from "./Quote";
 import Upcoming from "./Upcoming";
@@ -16,7 +14,6 @@ const Plans = ({ user, setUser }) => {
 
   return (
     <div className="plans-container">
-      
       <Quote />
       <button onClick={() => setShowCreatePlan(true)}>Add Plan</button>
       <div>

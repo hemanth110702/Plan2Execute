@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase/config";
 import Home from "./components/Home";
-import Plans from "./components/Plans";
+import Plans from "./components/plans/Plans";
 import History from "./components/History";
 import Birthdays from "./components/Birthdays";
 import Notes from "./components/Notes";
