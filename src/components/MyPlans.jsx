@@ -200,7 +200,7 @@ const MyPlans = ({ plans, setPlans }) => {
                       >
                         edit
                       </button>
-                      <button onClick={() => deletePlan(plan, plans, setPlans)}>
+                      <button onClick={() => deletePlan(plan, plans, setPlans, true , setMyPlans)}>
                         delete
                       </button>
                     </div>
