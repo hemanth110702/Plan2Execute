@@ -61,6 +61,18 @@ const Birthdays = () => {
     console.log(birthdays);
   };
 
+  const deleteDob = (bday, month) => {
+    const bdayMonth = birthdays[month];
+    let deleteIndex;
+    for(let i = 0; i < bdayMonth.length; i++) {
+      if(bdayMonth[i].dobId === bday.dobId) {
+        deleteIndex = i;
+      }
+    }
+    bdayMonth.splice(deleteIndex, 1);
+    setBirthdays((prevDobs)=> ({...prevDobs, [month]: bdayMonth}));
+  };
+
   return (
     <div>
       <form action="#">
@@ -115,8 +127,22 @@ const Birthdays = () => {
         <h1>All Birthdays</h1>{" "}
         {months.map((month, index) => (
           <details>
-            <summary>{month} {birthdays[month].length}</summary>
-            {birthdays[month].map((bday) => (<h3>{bday.dob} - {bday.name}</h3>))}
+            <summary>
+              {month} {birthdays[month].length}
+            </summary>
+            {birthdays[month].map((bday) => (
+              <div>
+                {bday.dob} - {bday.name}
+                <button>edit</button>
+                <button
+                  onClick={() => {
+                    deleteDob(bday, month);
+                  }}
+                >
+                  del
+                </button>
+              </div>
+            ))}
           </details>
         ))}
       </div>
