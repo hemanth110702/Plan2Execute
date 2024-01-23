@@ -97,14 +97,28 @@ const Birthdays = () => {
       </form>
       <div>
         <h1>Birthdays today</h1> <br />
-        <div>{presentBds.map((bday)=>(<h4>{bday.name}</h4>))}</div>
+        <div>
+          {presentBds.map((bday) => (
+            <h4>{bday.name}</h4>
+          ))}
+        </div>
       </div>
       <div>
         <h1>Upcoming Birthdays in present month</h1>{" "}
-        <div>{monthlyBds.map((bday)=>(<h4>{bday.name}</h4>))}</div>
+        <div>
+          {monthlyBds.map((bday) => (
+            <h4>{bday.name}</h4>
+          ))}
+        </div>
       </div>
-      <div> 
+      <div>
         <h1>All Birthdays</h1>{" "}
+        {months.map((month, index) => (
+          <details>
+            <summary>{month} {birthdays[month].length}</summary>
+            {birthdays[month].map((bday) => (<h3>{bday.dob} - {bday.name}</h3>))}
+          </details>
+        ))}
       </div>
     </div>
   );
