@@ -22,6 +22,8 @@ const Birthdays = () => {
   const [description, setDescription] = useState("");
   const [presentBds, setPresentBds] = useState([]);
   const [monthlyBds, setMonthlyBds] = useState([]);
+  const [showEdit, setShowEdit] = useState(false);
+  const [editingBirthday, setEditingBirthday] = useState(null);
 
   useEffect(() => {
     const today = new Date();
@@ -40,6 +42,7 @@ const Birthdays = () => {
       (dobs) => dobs.dob === presentDate
     );
     setPresentBds(tempPresentBds);
+    console.log("useeffe", birthdays);
   }, [birthdays]);
 
   const addDob = (e) => {
@@ -64,13 +67,38 @@ const Birthdays = () => {
   const deleteDob = (bday, month) => {
     const bdayMonth = birthdays[month];
     let deleteIndex;
-    for(let i = 0; i < bdayMonth.length; i++) {
-      if(bdayMonth[i].dobId === bday.dobId) {
+    for (let i = 0; i < bdayMonth.length; i++) {
+      if (bdayMonth[i].dobId === bday.dobId) {
         deleteIndex = i;
       }
     }
     bdayMonth.splice(deleteIndex, 1);
-    setBirthdays((prevDobs)=> ({...prevDobs, [month]: bdayMonth}));
+    setBirthdays((prevDobs) => ({ ...prevDobs, [month]: bdayMonth }));
+  };
+
+  const editDob = (bday, month) => {
+    setEditingBirthday(bday.dobId);
+    setShowEdit(true);
+    setDescription(bday.description);
+    setName(bday.name);
+    setDob(bday.dob);
+  };
+
+  const updateDob = (bday, month) => {
+    console.log("before", birthdays);
+    const tempMobs = birthdays[month];
+    const updatedDob = { name, dob, description };
+    console.log(bday, month, tempMobs, updatedDob);
+    for (let i = 0; i < tempMobs.length; i++) {
+      if (bday.dobId === tempMobs[i].dobId) {
+        tempMobs[i] = { ...tempMobs[i], ...updatedDob };
+        break;
+      }
+    }
+    console.log(tempMobs);
+    setBirthdays((prevBds) => ({ ...prevBds, [month]: tempMobs }));
+    console.log("after", birthdays);
+    setShowEdit(false);
   };
 
   return (
@@ -133,7 +161,13 @@ const Birthdays = () => {
             {birthdays[month].map((bday) => (
               <div>
                 {bday.dob} - {bday.name}
-                <button>edit</button>
+                <button
+                  onClick={() => {
+                    editDob(bday, month);
+                  }}
+                >
+                  edit
+                </button>
                 <button
                   onClick={() => {
                     deleteDob(bday, month);
@@ -141,6 +175,39 @@ const Birthdays = () => {
                 >
                   del
                 </button>
+                {editingBirthday === bday.dobId && showEdit && (
+                  <div>
+                    Name:{" "}
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />{" "}
+                    <br />
+                    dob:{" "}
+                    <input
+                      type="date"
+                      value={dob}
+                      onChange={(e) => setDob(e.target.value)}
+                    />{" "}
+                    <br />
+                    Description:
+                    <textarea
+                      name="des"
+                      id=""
+                      cols="30"
+                      rows="10"
+                      value={description}
+                      onChange={(e) => {
+                        setDescription(e.target.value);
+                      }}
+                    ></textarea>{" "}
+                    <br />
+                    <button onClick={() => updateDob(bday, month)}>
+                      update
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </details>
