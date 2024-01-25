@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { months } from "../staticData/CalenderCollection";
+import { months } from "../../staticData/CalenderCollection";
+import BirthInp from "./BirthInp";
 
 const Birthdays = () => {
   const [birthdays, setBirthdays] = useState({
@@ -103,38 +104,15 @@ const Birthdays = () => {
 
   return (
     <div>
-      <form action="#">
-        <h1>Birthday</h1>
-        Name:
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-        Birth date:
-        <input
-          type="date"
-          value={dob}
-          onChange={(e) => {
-            setDob(e.target.value);
-          }}
-        />{" "}
-        <br />
-        Description:{" "}
-        <textarea
-          name="des"
-          id=""
-          cols="30"
-          rows="10"
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-        ></textarea>
-        <button onClick={addDob}>add</button>
-      </form>
+      <BirthInp
+        name={name}
+        setName={setName}
+        dob={dob}
+        setDob={setDob}
+        description={description}
+        setDescription={setDescription}
+        addDob={addDob}
+      />
       <div>
         <h1>Birthdays today</h1> <br />
         <div>
