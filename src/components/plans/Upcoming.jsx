@@ -59,7 +59,7 @@ const Upcoming = ({ plans, setPlans }) => {
   return (
     <div className="upcoming-container">
       <div className="header">
-        <h1>Upcoming</h1>
+        <h1>Future Goals: Upcoming Endeavors</h1>
         <h3>
           Events <br />{" "}
           {`Prs: ${upcomingEvents["Personal"]} | Off: ${upcomingEvents["Office"]} | Bills: ${upcomingEvents["Bill"]} | Oth: ${upcomingEvents["Other"]} `}

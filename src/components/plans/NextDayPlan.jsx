@@ -36,7 +36,7 @@ const NextDayPlan = ({ plans, setPlans }) => {
   return (
     <div className="tmrwPlans-container">
       <div className="tmrwPlans-header">
-        <h1>Upcoming Tmrw</h1> <br />
+        <h1>Tomorrow's Triumphs: Plan Ahead </h1> <br />
         <h3>
           Events <br />
           {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}

@@ -90,7 +90,7 @@ const MyPlans = ({ plans, setPlans }) => {
   return (
     <div className="my-plans-container">
       <div className="header">
-        <h1>MyPlans - Today</h1>
+        <h1>Seize the Day: Today's Plans</h1>
         <h3>
           Events <br />
           {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}

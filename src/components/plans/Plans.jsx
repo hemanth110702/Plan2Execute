@@ -19,11 +19,11 @@ const Plans = ({ user, setUser }) => {
       <button onClick={() => setShowCreatePlan(true)}>Add Plan</button>
       <div>
         <div className="plans-panel">
-          <Upcoming plans={plans} setPlans={setPlans} />
+          <NextDayPlan plans={plans} setPlans={setPlans} />
           <MyPlans plans={plans} setPlans={setPlans} />
         </div>
       </div>
-      <NextDayPlan plans={plans} setPlans={setPlans} />
+      <Upcoming plans={plans} setPlans={setPlans} />
       {showCreatePlan && (
         <CreatePlan
           setShowCreatePlan={setShowCreatePlan}

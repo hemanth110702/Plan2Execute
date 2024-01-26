@@ -51,7 +51,6 @@ body {
 .upcoming-container > .header {
   display: flex;
   justify-content: space-around;
-  
 }
 
 /* -- MyPlans -------------------------------------------------- */
@@ -70,7 +69,6 @@ body {
   text-align: end;
 }
 
-
 .plans-panel {
   display: grid;
   grid-template-columns: 30% 70%;
@@ -86,4 +84,10 @@ body {
 
 .quote-container {
   background-color: rgb(43, 214, 226);
+}
+
+/* -- tmrwPlans -------------------------------------------------------- */
+
+.tmrwPlans-container {
+  background-color: olive;
 }
