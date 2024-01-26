@@ -9,7 +9,7 @@ import {
 import EditPlan from "./EditPlan";
 
 const NextDayPlan = ({ plans, setPlans }) => {
-  const [tmrwPlans, setTmrwPlans] = useState(null);
+  const [tmrwPlans, setTmrwPlans] = useState([]);
   const [showEditPlan, setShowEditPlan] = useState(false);
   const [events, setEvents] = useState({
     Personal: 0,
@@ -23,14 +23,11 @@ const NextDayPlan = ({ plans, setPlans }) => {
   const tmrw = dateToString(tomorrow);
   useEffect(() => {
     setTmrwPlans(plans[tmrw]);
-    console.log("err");
-  }, [plans]);
-
-  useEffect(() => {
     if (tmrwPlans) {
       countEventType();
     }
-  }, [tmrwPlans]);
+    console.log("err");
+  }, [plans, tmrwPlans]);
 
   const countEventType = () => {
     setEvents(eventTypeCounter(tmrwPlans));
@@ -48,7 +45,7 @@ const NextDayPlan = ({ plans, setPlans }) => {
       <div className="tmrwPlans-body">
         {tmrwPlans &&
           tmrwPlans.map((plan) => (
-            <details>
+            <details key={plan.planId}>
               <summary>
                 {plan.displayName} - {plan.eventType}
                 <div>

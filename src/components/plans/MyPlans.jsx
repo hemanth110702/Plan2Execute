@@ -39,7 +39,10 @@ const MyPlans = ({ plans, setPlans }) => {
 
   useEffect(() => {
     console.log("myPlans", myPlans);
-    countEventType();
+    if(myPlans){
+      countEventType();
+
+    }
     countCategory();
     let fd = myPlans.filter((plan) => plan.category === showPlans);
     console.log("fd", fd);

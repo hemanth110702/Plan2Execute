@@ -52,6 +52,7 @@ export const dateToString = (dateValue) =>
 
 // count category of each type
 export const eventTypeCounter = (events) => {
+  console.log(events);
   const eventType = {
     Personal: 0,
     Office: 0,
