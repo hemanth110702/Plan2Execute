@@ -5,7 +5,7 @@ import { auth } from "./firebase/config";
 import Home from "./components/Home";
 import Plans from "./components/plans/Plans";
 import History from "./components/History";
-import Birthdays from "./components/Birthdays";
+import Birthdays from "./components/birthdays/Birthdays";
 import Notes from "./components/Notes";
 import "./App.css";
 

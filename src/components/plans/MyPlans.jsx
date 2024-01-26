@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { days, months } from "../../staticData/CalenderCollection";
-import { deletePlan, editPlan } from "../../functions/operations";
+import { checklistUpdater, dateToString, deletePlan, editPlan, eventTypeCounter } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 import CountdownTimer from "./CountdownTimer";
 
@@ -9,7 +9,7 @@ const MyPlans = ({ plans, setPlans }) => {
   const [showPlans, setShowPlans] = useState("planned");
   const [showEditPlan, setShowEditPlan] = useState(false);
   const [editPlanData, setEditPlanData] = useState(null);
-  const [upcomingEvents, setUpcomingEvents] = useState({
+  const [events, setEvents] = useState({
     Personal: 0,
     Office: 0,
     Bill: 0,
@@ -26,9 +26,7 @@ const MyPlans = ({ plans, setPlans }) => {
   const presentDay = dateToday.getDay();
   const presentMonth = dateToday.getMonth();
   const presentDate = dateToday.getDate();
-  const presentDateFormat = `${dateToday.getFullYear()}-${
-    (dateToday.getMonth() + 1 < 10 ? "0" : "") + (dateToday.getMonth() + 1)
-  }-${dateToday.getDate()}`;
+  const presentDateFormat = dateToString(dateToday);
 
   useEffect(() => {
     for (let [planDate, planInfo] of Object.entries(plans)) {
@@ -64,25 +62,8 @@ const MyPlans = ({ plans, setPlans }) => {
     }));
   };
 
-  const countEventType = () => {
-    const eventType = {
-      Personal: 0,
-      Office: 0,
-      Bill: 0,
-      Other: 0,
-    };
-    for (let i = 0; i < myPlans.length; i++) {
-      if (myPlans[i].eventType === "Personal") {
-        eventType.Personal = eventType.Personal + 1;
-      } else if (myPlans[i].eventType === "Office") {
-        eventType.Office = eventType.Office + 1;
-      } else if (myPlans[i].eventType === "Bill") {
-        eventType.Bill = eventType.Bill + 1;
-      } else {
-        eventType.Other = eventType.Other + 1;
-      }
-    }
-    setUpcomingEvents(eventType);
+  const countEventType = () => { 
+    setEvents(eventTypeCounter(myPlans));
   };
 
   const changeCategory = (categoryType, plan) => {
@@ -103,47 +84,13 @@ const MyPlans = ({ plans, setPlans }) => {
     setPlans(tempPlans);
   };
 
-  const updateCheckList = (index, plan) => {
-    console.log("plan", plan, "plans", plans);
-    let updatePlan;
-    for (let [planDate, planInfo] of Object.entries(plans)) {
-      if (planDate === plan.planDate) {
-        updatePlan = planInfo;
-        break;
-      }
-    }
-    console.log("update plan", updatePlan);
-    let checkListCounter = 0;
-
-    for (let i = 0; i < updatePlan.length; i++) {
-      if (plan.planId === updatePlan[i].planId) {
-        for (let j = 0; j < updatePlan[i].checkListItems.length; j++) {
-          if (j == index) {
-            updatePlan[i].checkListItems[j].status =
-              !updatePlan[i].checkListItems[j].status;
-          }
-          if (updatePlan[i].checkListItems[j].status) {
-            ++checkListCounter;
-            if (checkListCounter === updatePlan[i].checkListItems.length) {
-              updatePlan[i].checkListStatus = true;
-            } else {
-              updatePlan[i].checkListStatus = false;
-            }
-          }
-        }
-      }
-    }
-
-    setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: updatePlan }));
-  };
-
   return (
     <div className="my-plans-container">
       <div className="header">
         <h1>MyPlans - Today</h1>
         <h3>
           Events <br />
-          {`Prs: ${upcomingEvents["Personal"]} | Off: ${upcomingEvents["Office"]} | Bills: ${upcomingEvents["Bill"]} | Oth: ${upcomingEvents["Other"]} `}
+          {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
         </h3>
         <div>
           <button onClick={() => setShowPlans("planned")}>
@@ -200,7 +147,11 @@ const MyPlans = ({ plans, setPlans }) => {
                       >
                         edit
                       </button>
-                      <button onClick={() => deletePlan(plan, plans, setPlans, true , setMyPlans)}>
+                      <button
+                        onClick={() =>
+                          deletePlan(plan, plans, setPlans, true, setMyPlans)
+                        }
+                      >
                         delete
                       </button>
                     </div>
@@ -216,7 +167,9 @@ const MyPlans = ({ plans, setPlans }) => {
                         status:{" "}
                         <input
                           type="checkbox"
-                          onChange={() => updateCheckList(index, plan)}
+                          onChange={() =>
+                            checklistUpdater(index, plan, plans, setPlans)
+                          }
                           checked={item["status"]}
                         />
                       </div>

@@ -3,6 +3,7 @@ import CreatePlan from "./CreatePlan";
 import Quote from "./Quote";
 import Upcoming from "./Upcoming";
 import MyPlans from "./MyPlans";
+import NextDayPlan from "./NextDayPlan";
 
 const Plans = ({ user, setUser }) => {
   const [showCreatePlan, setShowCreatePlan] = useState(false);
@@ -22,6 +23,7 @@ const Plans = ({ user, setUser }) => {
           <MyPlans plans={plans} setPlans={setPlans} />
         </div>
       </div>
+      <NextDayPlan plans={plans} setPlans={setPlans} />
       {showCreatePlan && (
         <CreatePlan
           setShowCreatePlan={setShowCreatePlan}

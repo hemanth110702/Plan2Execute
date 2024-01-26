@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePlan, editPlan } from "../../functions/operations";
+import { dateToString, deletePlan, editPlan } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 
 const Upcoming = ({ plans, setPlans }) => {
@@ -14,9 +14,7 @@ const Upcoming = ({ plans, setPlans }) => {
   });
 
   const dateToday = new Date();
-  const presentDateFormat = `${dateToday.getFullYear()}-${
-    (dateToday.getMonth() + 1 < 10 ? "0" : "") + (dateToday.getMonth() + 1)
-  }-${dateToday.getDate()}`;
+  const presentDateFormat = dateToString(dateToday);
 
   useEffect(() => {
     //sort the plans according to date
