@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { days, months } from "../../staticData/CalenderCollection";
-import { checklistUpdater, dateToString, deletePlan, editPlan, eventTypeCounter } from "../../functions/operations";
+import { checklistUpdater, dateToString, editPlan, eventTypeCounter } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 import CountdownTimer from "./CountdownTimer";
 
@@ -159,13 +159,6 @@ const MyPlans = ({ plans, setPlans, setShowCreatePlan, selectedRegister, setSele
                         }
                       >
                         edit
-                      </button>
-                      <button
-                        onClick={() =>
-                          deletePlan(plan, plans, setPlans, true, setMyPlans)
-                        }
-                      >
-                        delete
                       </button>
                     </div>
                   ) : null}
