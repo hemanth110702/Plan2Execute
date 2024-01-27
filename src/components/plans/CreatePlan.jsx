@@ -1,9 +1,14 @@
 import { useState } from "react";
 
-const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
+const CreatePlan = ({
+  selectedRegister,
+  setSelectedRegister,
+  setShowCreatePlan,
+  plans,
+  setPlans,
+}) => {
   const [checkListItem, setCheckListItem] = useState("");
   const [checkListItems, setCheckListItems] = useState([]);
-  const [showEditPlan, setShowEditPlan] = useState(false);
 
   const addPlan = (e) => {
     e.preventDefault();
@@ -98,7 +103,17 @@ const CreatePlan = ({ setShowCreatePlan, plans, setPlans }) => {
           ))}
         <br />
         Start Date:
-        <input type="date" name="date" />
+        <input
+          type="date"
+          name="date"
+          value={selectedRegister.date}
+          onChange={(e) =>
+            setSelectedRegister((prevData) => ({
+              ...prevData,
+              date: e.target.value,
+            }))
+          }
+        />
         <br />
         Start Time: <input type="time" name="start-time" />
         <br />

@@ -5,10 +5,17 @@ import {
   deletePlan,
   editPlan,
   eventTypeCounter,
+  registerPlan,
 } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 
-const NextDayPlan = ({ plans, setPlans }) => {
+const NextDayPlan = ({
+  plans,
+  setPlans,
+  setShowCreatePlan,
+  selectedRegister,
+  setSelectedRegister,
+}) => {
   const [tmrwPlans, setTmrwPlans] = useState([]);
   const [showEditPlan, setShowEditPlan] = useState(false);
   const [events, setEvents] = useState({
@@ -20,9 +27,9 @@ const NextDayPlan = ({ plans, setPlans }) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
-  const tmrw = dateToString(tomorrow);
+  const nextDay = dateToString(tomorrow);
   useEffect(() => {
-    setTmrwPlans(plans[tmrw]);
+    setTmrwPlans(plans[nextDay]);
     if (tmrwPlans) {
       countEventType();
     }
@@ -36,7 +43,13 @@ const NextDayPlan = ({ plans, setPlans }) => {
   return (
     <div className="tmrwPlans-container">
       <div className="tmrwPlans-header">
-        <h1>Tomorrow's Triumphs: Plan Ahead </h1> <br />
+        <h1>
+          Tomorrow's Triumphs: Plan Ahead <button onClick={()=>{
+            setSelectedRegister({ date: nextDay, registerOn: "tomorrow" });
+            registerPlan(setShowCreatePlan, selectedRegister);
+          }} >Add</button>{" "}
+        </h1>{" "}
+        <br />
         <h3>
           Events <br />
           {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
