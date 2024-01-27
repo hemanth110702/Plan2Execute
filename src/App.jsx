@@ -12,6 +12,21 @@ import "./App.css";
 function App() {
   const [user, setUser] = useState(auth?.currentUser?.displayName);
   const navigate = useNavigate();
+  const [plans, setPlans] = useState({});
+  const [birthdays, setBirthdays] = useState({
+    January: [],
+    February: [],
+    March: [],
+    April: [],
+    May: [],
+    June: [],
+    July: [],
+    August: [],
+    September: [],
+    October: [],
+    November: [],
+    December: [],
+  });
 
   // navigate to home, when user logout
   useEffect(() => {
@@ -104,10 +119,22 @@ function App() {
         <Route path="/:id">
           <Route
             path="plans"
-            element={<Plans user={user} setUser={setUser} />}
+            element={
+              <Plans
+                user={user}
+                setUser={setUser}
+                plans={plans}
+                setPlans={setPlans}
+              />
+            }
           />
-          <Route path="history" element={<History />} />
-          <Route path="birthdays" element={<Birthdays />} />
+          <Route path="history" element={<History plans={plans} />} />
+          <Route
+            path="birthdays"
+            element={
+              <Birthdays birthdays={birthdays} setBirthdays={setBirthdays} />
+            }
+          />
           <Route path="notes" element={<Notes />} />
         </Route>
       </Routes>

@@ -12,7 +12,6 @@ const NextDayPlan = ({
   plans,
   setPlans,
   setShowCreatePlan,
-  selectedRegister,
   setSelectedRegister,
 }) => {
   const [tmrwPlans, setTmrwPlans] = useState([]);

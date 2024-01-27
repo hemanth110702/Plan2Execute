@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
 import { days, months } from "../../staticData/CalenderCollection";
-import { checklistUpdater, dateToString, editPlan, eventTypeCounter } from "../../functions/operations";
+import {
+  checklistUpdater,
+  dateToString,
+  editPlan,
+  eventTypeCounter,
+} from "../../functions/operations";
 import EditPlan from "./EditPlan";
 import CountdownTimer from "./CountdownTimer";
 
-const MyPlans = ({ plans, setPlans, setShowCreatePlan, selectedRegister, setSelectedRegister }) => {
+const MyPlans = ({
+  plans,
+  setPlans,
+  setShowCreatePlan,
+  selectedRegister,
+  setSelectedRegister,
+}) => {
   const [myPlans, setMyPlans] = useState([]);
   const [showPlans, setShowPlans] = useState("planned");
   const [showEditPlan, setShowEditPlan] = useState(false);
@@ -39,9 +50,8 @@ const MyPlans = ({ plans, setPlans, setShowCreatePlan, selectedRegister, setSele
 
   useEffect(() => {
     console.log("myPlans", myPlans);
-    if(myPlans){
+    if (myPlans) {
       countEventType();
-
     }
     countCategory();
     let fd = myPlans.filter((plan) => plan.category === showPlans);
@@ -65,7 +75,7 @@ const MyPlans = ({ plans, setPlans, setShowCreatePlan, selectedRegister, setSele
     }));
   };
 
-  const countEventType = () => { 
+  const countEventType = () => {
     setEvents(eventTypeCounter(myPlans));
   };
 

@@ -2,21 +2,7 @@ import React, { useEffect, useState } from "react";
 import { months } from "../../staticData/CalenderCollection";
 import BirthInp from "./BirthInp";
 
-const Birthdays = () => {
-  const [birthdays, setBirthdays] = useState({
-    January: [],
-    February: [],
-    March: [],
-    April: [],
-    May: [],
-    June: [],
-    July: [],
-    August: [],
-    September: [],
-    October: [],
-    November: [],
-    December: [],
-  });
+const Birthdays = ({birthdays, setBirthdays}) => {
 
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");

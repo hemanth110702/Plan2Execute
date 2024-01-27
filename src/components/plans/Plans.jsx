@@ -5,12 +5,12 @@ import Upcoming from "./Upcoming";
 import MyPlans from "./MyPlans";
 import NextDayPlan from "./NextDayPlan";
 
-const Plans = ({ user, setUser }) => {
+const Plans = ({ user, setUser, plans, setPlans }) => {
   const [showCreatePlan, setShowCreatePlan] = useState(false);
   const [selectedRegister, setSelectedRegister] = useState({
     date: "",
   });
-  const [plans, setPlans] = useState({});
+ 
   useEffect(() => {
     console.log(plans);
   }, [plans]);
