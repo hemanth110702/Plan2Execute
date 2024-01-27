@@ -109,15 +109,3 @@ export const checklistUpdater = (index, plan, plans, setPlans) => {
 
   setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: updatePlan }));
 };
-
-//adding a plan
-export const registerPlan = (setShowCreatePlan, selectedRegister) => {
-  if (selectedRegister.registerOn === "tomorrow") {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-    const nextDate = dateToString(tomorrow);
-    
-  }
-  setShowCreatePlan(true);
-};

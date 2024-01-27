@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { dateToString, deletePlan, editPlan } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 
-const Upcoming = ({ plans, setPlans }) => {
+const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) => {
   const [upcomingPlans, setUpcomingPlans] = useState([]);
   const [showEditPlan, setShowEditPlan] = useState(false);
   const [editPlanData, setEditPlanData] = useState(null);
@@ -59,7 +59,11 @@ const Upcoming = ({ plans, setPlans }) => {
   return (
     <div className="upcoming-container">
       <div className="header">
-        <h1>Future Goals: Upcoming Endeavors</h1>
+        <h1>Future Goals: Upcoming Endeavors <button onClick={
+          () => {
+            setSelectedRegister({ date: "" });
+            setShowCreatePlan(true);
+        }}>Add</button></h1>
         <h3>
           Events <br />{" "}
           {`Prs: ${upcomingEvents["Personal"]} | Off: ${upcomingEvents["Office"]} | Bills: ${upcomingEvents["Bill"]} | Oth: ${upcomingEvents["Other"]} `}

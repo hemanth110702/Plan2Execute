@@ -8,7 +8,6 @@ import NextDayPlan from "./NextDayPlan";
 const Plans = ({ user, setUser }) => {
   const [showCreatePlan, setShowCreatePlan] = useState(false);
   const [selectedRegister, setSelectedRegister] = useState({
-    registerOn: "",
     date: "",
   });
   const [plans, setPlans] = useState({});
@@ -19,20 +18,27 @@ const Plans = ({ user, setUser }) => {
   return (
     <div className="plans-container">
       <Quote />
-      <button onClick={() => setShowCreatePlan(true)}>Add Plan</button>
+      <button
+        onClick={() => {
+          setSelectedRegister({ date: "" });
+          setShowCreatePlan(true);
+        }}
+      >
+        Add Plan
+      </button>
       <div>
         <div className="plans-panel">
           <NextDayPlan
             plans={plans}
             setPlans={setPlans}
             setShowCreatePlan={setShowCreatePlan}
-            selectedRegister={selectedRegister}
             setSelectedRegister={setSelectedRegister}
           />
           <MyPlans
             plans={plans}
             setPlans={setPlans}
             setShowCreatePlan={setShowCreatePlan}
+            setSelectedRegister={setSelectedRegister}
           />
         </div>
       </div>
@@ -40,6 +46,7 @@ const Plans = ({ user, setUser }) => {
         plans={plans}
         setPlans={setPlans}
         setShowCreatePlan={setShowCreatePlan}
+        setSelectedRegister={setSelectedRegister}
       />
       {showCreatePlan && (
         <CreatePlan

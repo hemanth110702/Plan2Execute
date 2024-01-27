@@ -5,7 +5,6 @@ import {
   deletePlan,
   editPlan,
   eventTypeCounter,
-  registerPlan,
 } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 
@@ -24,6 +23,7 @@ const NextDayPlan = ({
     Bill: 0,
     Other: 0,
   });
+
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -44,10 +44,15 @@ const NextDayPlan = ({
     <div className="tmrwPlans-container">
       <div className="tmrwPlans-header">
         <h1>
-          Tomorrow's Triumphs: Plan Ahead <button onClick={()=>{
-            setSelectedRegister({ date: nextDay, registerOn: "tomorrow" });
-            registerPlan(setShowCreatePlan, selectedRegister);
-          }} >Add</button>{" "}
+          Tomorrow's Triumphs: Plan Ahead{" "}
+          <button
+            onClick={() => {
+              setSelectedRegister({ date: nextDay });
+              setShowCreatePlan(true);
+            }}
+          >
+            Add
+          </button>{" "}
         </h1>{" "}
         <br />
         <h3>

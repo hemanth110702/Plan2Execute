@@ -4,7 +4,7 @@ import { checklistUpdater, dateToString, deletePlan, editPlan, eventTypeCounter 
 import EditPlan from "./EditPlan";
 import CountdownTimer from "./CountdownTimer";
 
-const MyPlans = ({ plans, setPlans }) => {
+const MyPlans = ({ plans, setPlans, setShowCreatePlan, selectedRegister, setSelectedRegister }) => {
   const [myPlans, setMyPlans] = useState([]);
   const [showPlans, setShowPlans] = useState("planned");
   const [showEditPlan, setShowEditPlan] = useState(false);
@@ -26,11 +26,11 @@ const MyPlans = ({ plans, setPlans }) => {
   const presentDay = dateToday.getDay();
   const presentMonth = dateToday.getMonth();
   const presentDate = dateToday.getDate();
-  const presentDateFormat = dateToString(dateToday);
+  const today = dateToString(dateToday);
 
   useEffect(() => {
     for (let [planDate, planInfo] of Object.entries(plans)) {
-      if (planDate === presentDateFormat) {
+      if (planDate === today) {
         setMyPlans([...planInfo]);
         break;
       }
@@ -90,7 +90,17 @@ const MyPlans = ({ plans, setPlans }) => {
   return (
     <div className="my-plans-container">
       <div className="header">
-        <h1>Seize the Day: Today's Plans</h1>
+        <h1>
+          Seize the Day: Today's Plans{" "}
+          <button
+            onClick={() => {
+              setSelectedRegister({ date: today, registerOn: "today" });
+              setShowCreatePlan(true);
+            }}
+          >
+            Add
+          </button>{" "}
+        </h1>
         <h3>
           Events <br />
           {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
