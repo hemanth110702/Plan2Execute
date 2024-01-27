@@ -26,7 +26,7 @@ const CreatePlan = ({
       const newPlan = Object.assign({}, plans);
       for (let plan in plans) {
         if (plan === planDate) {
-          newPlan[plan].push({
+          newPlan[plan].planned.push({
             planId,
             displayName,
             displayContent,
@@ -44,22 +44,38 @@ const CreatePlan = ({
     } else {
       setPlans((prevPlans) => ({
         ...prevPlans,
-        [planDate]: [
-          {
-            planId,
-            displayName,
-            displayContent,
-            planDate,
-            startTime,
-            endTime,
-            eventType,
-            category: "planned",
-            checkListItems,
-            checkListStatus: false,
-          },
-        ],
+        [planDate]: {
+          planned: [
+            {
+              planId,
+              displayName,
+              displayContent,
+              planDate,
+              startTime,
+              endTime,
+              eventType,
+              category: "planned",
+              checkListItems,
+              checkListStatus: false,
+            },
+          ],
+          executed: [],
+          cancelled: [],
+        },
       }));
     }
+    sortPlans();
+  };
+
+  const sortPlans = () => {
+    console.log(plans);
+    setPlans((prevPlans) => {
+      const unsortedPlans = Object.entries(prevPlans);
+      const sortedPlans = [...unsortedPlans].sort(
+        ([a], [b]) => new Date(a) - new Date(b)
+      );
+      return Object.fromEntries(sortedPlans);
+    });
   };
 
   const addChecklist = (e) => {

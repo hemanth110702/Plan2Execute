@@ -17,21 +17,14 @@ const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) =
   const presentDateFormat = dateToString(dateToday);
 
   useEffect(() => {
-    //sort the plans according to date
-    const unsortedPlans = Object.entries(plans);
-    const sortedPlans = unsortedPlans.sort(
-      ([a], [b]) => new Date(a) - new Date(b)
-    );
-    const sortedPlansObject = Object.fromEntries(sortedPlans);
-
     //filter the upcoming plans
-    const filterUpcoming = Object.entries(sortedPlansObject).filter(
+    const filterUpcoming = Object.entries(plans).filter(
       (planDate) => planDate[0] > presentDateFormat
     );
     setUpcomingPlans(filterUpcoming);
   }, [plans]);
 
-  useEffect(() => {
+ /*  useEffect(() => {
     // count the total of each event
     const eventType = {
       Personal: 0,
@@ -54,11 +47,11 @@ const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) =
     }
     setUpcomingEvents(eventType);
     console.log("ucp", upcomingPlans);
-  }, [upcomingPlans]);
+  }, [upcomingPlans]); */
 
   return (
     <div className="upcoming-container">
-      <div className="header">
+     {/*  <div className="header">
         <h1>Future Goals: Upcoming Endeavors <button onClick={
           () => {
             setSelectedRegister({ date: "" });
@@ -68,9 +61,9 @@ const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) =
           Events <br />{" "}
           {`Prs: ${upcomingEvents["Personal"]} | Off: ${upcomingEvents["Office"]} | Bills: ${upcomingEvents["Bill"]} | Oth: ${upcomingEvents["Other"]} `}
         </h3>
-      </div>
+      </div> */}
       <div className="body">
-        {upcomingPlans.map((planDate) => (
+        {/* {upcomingPlans.map((planDate) => (
           <details>
             <summary>{planDate[0]}</summary>
             <div>
@@ -104,7 +97,7 @@ const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) =
               ))}
             </div>
           </details>
-        ))}
+        ))} */}
       </div>
     </div>
   );

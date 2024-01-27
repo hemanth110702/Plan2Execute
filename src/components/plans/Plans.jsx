@@ -12,7 +12,8 @@ const Plans = ({ user, setUser, plans, setPlans }) => {
   });
  
   useEffect(() => {
-    console.log(plans);
+
+    console.log("updatedPlans",plans);
   }, [plans]);
 
   return (
@@ -28,12 +29,12 @@ const Plans = ({ user, setUser, plans, setPlans }) => {
       </button>
       <div>
         <div className="plans-panel">
-          <NextDayPlan
+        {/*   <NextDayPlan
             plans={plans}
             setPlans={setPlans}
             setShowCreatePlan={setShowCreatePlan}
             setSelectedRegister={setSelectedRegister}
-          />
+          /> */}
           <MyPlans
             plans={plans}
             setPlans={setPlans}
@@ -42,12 +43,12 @@ const Plans = ({ user, setUser, plans, setPlans }) => {
           />
         </div>
       </div>
-      <Upcoming
+     {/*  <Upcoming
         plans={plans}
         setPlans={setPlans}
         setShowCreatePlan={setShowCreatePlan}
         setSelectedRegister={setSelectedRegister}
-      />
+      /> */}
       {showCreatePlan && (
         <CreatePlan
           selectedRegister={selectedRegister}

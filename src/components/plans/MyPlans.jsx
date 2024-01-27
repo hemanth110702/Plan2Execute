@@ -42,7 +42,7 @@ const MyPlans = ({
   useEffect(() => {
     for (let [planDate, planInfo] of Object.entries(plans)) {
       if (planDate === today) {
-        setMyPlans([...planInfo]);
+        setMyPlans({...planInfo});
         break;
       }
     }
@@ -50,12 +50,12 @@ const MyPlans = ({
 
   useEffect(() => {
     console.log("myPlans", myPlans);
-    if (myPlans) {
+    /* if (myPlans) {
       countEventType();
     }
     countCategory();
     let fd = myPlans.filter((plan) => plan.category === showPlans);
-    console.log("fd", fd);
+    console.log("fd", fd); */
   }, [myPlans]);
 
   const countCategory = () => {
@@ -102,21 +102,21 @@ const MyPlans = ({
       <div className="header">
         <h1>
           Seize the Day: Today's Plans{" "}
-          <button
+      {/*     <button
             onClick={() => {
               setSelectedRegister({ date: today, registerOn: "today" });
               setShowCreatePlan(true);
             }}
           >
             Add
-          </button>{" "}
+          </button>{" "} */}
         </h1>
-        <h3>
+      {/*   <h3>
           Events <br />
           {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
-        </h3>
+        </h3> */}
         <div>
-          <button onClick={() => setShowPlans("planned")}>
+         {/*  <button onClick={() => setShowPlans("planned")}>
             Planned {planCategoryCounter.planned}
           </button>
           <button onClick={() => setShowPlans("executed")}>
@@ -124,7 +124,7 @@ const MyPlans = ({
           </button>
           <button onClick={() => setShowPlans("cancelled")}>
             Cancelled {planCategoryCounter.cancelled}
-          </button>
+          </button> */}
         </div>
         <div className="date-container">
           <div>{presentYear}</div>
@@ -135,8 +135,7 @@ const MyPlans = ({
       </div>
       <div className="body">
         {myPlans &&
-          myPlans
-            .filter((plan) => plan.category === showPlans)
+          myPlans[showPlans]
             .map((plan) => (
               <details>
                 <summary>
