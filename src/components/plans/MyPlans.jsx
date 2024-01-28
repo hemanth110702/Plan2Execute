@@ -20,6 +20,7 @@ const MyPlans = ({
   const [showPlans, setShowPlans] = useState("planned");
   const [showEditPlan, setShowEditPlan] = useState(false);
   const [editPlanData, setEditPlanData] = useState(null);
+  const [selectedEditPlanId, setSelectedEditPlanId] = useState(null);
   const [events, setEvents] = useState({
     Personal: 0,
     Office: 0,
@@ -42,7 +43,7 @@ const MyPlans = ({
   useEffect(() => {
     for (let [planDate, planInfo] of Object.entries(plans)) {
       if (planDate === today) {
-        setMyPlans({...planInfo});
+        setMyPlans({ ...planInfo });
         break;
       }
     }
@@ -80,21 +81,19 @@ const MyPlans = ({
   };
 
   const changeCategory = (categoryType, plan) => {
-    console.log("plans", plans, "plan", plan);
     plan.category = categoryType;
-    const tempPlans = Object.assign({}, plans);
-    for (let [planDate, planInfo] of Object.entries(tempPlans)) {
-      if (planDate === plan.planDate) {
-        for (let i = 0; i < planInfo.length; i++) {
-          if (planInfo[i].planId === plan.planId) {
-            planInfo[i].category = categoryType;
-            break;
-          }
-        }
+    const dayPlans = plans[plan.planDate];
+    console.log(dayPlans);
+    dayPlans[plan.category].push(plan);
+    const plannedArray = dayPlans.planned;
+    for (let i = 0; i < plannedArray.length; i++) {
+      if (plannedArray[i].planId === plan.planId) {
+        plannedArray.splice(i, 1);
         break;
       }
     }
-    setPlans(tempPlans);
+    const newDayPlans = { ...dayPlans, planned: plannedArray };
+    setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: newDayPlans }));
   };
 
   return (
@@ -102,7 +101,7 @@ const MyPlans = ({
       <div className="header">
         <h1>
           Seize the Day: Today's Plans{" "}
-      {/*     <button
+          {/*     <button
             onClick={() => {
               setSelectedRegister({ date: today, registerOn: "today" });
               setShowCreatePlan(true);
@@ -111,12 +110,12 @@ const MyPlans = ({
             Add
           </button>{" "} */}
         </h1>
-      {/*   <h3>
+        {/*   <h3>
           Events <br />
           {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
         </h3> */}
         <div>
-         {/*  <button onClick={() => setShowPlans("planned")}>
+          <button onClick={() => setShowPlans("planned")}>
             Planned {planCategoryCounter.planned}
           </button>
           <button onClick={() => setShowPlans("executed")}>
@@ -124,7 +123,7 @@ const MyPlans = ({
           </button>
           <button onClick={() => setShowPlans("cancelled")}>
             Cancelled {planCategoryCounter.cancelled}
-          </button> */}
+          </button>
         </div>
         <div className="date-container">
           <div>{presentYear}</div>
@@ -134,9 +133,9 @@ const MyPlans = ({
         </div>
       </div>
       <div className="body">
-        {myPlans &&
-          myPlans[showPlans]
-            .map((plan) => (
+        {myPlans[showPlans] && myPlans[showPlans].length ? (
+          myPlans[showPlans].map((plan) => (
+            <div>
               <details>
                 <summary>
                   {plan.displayName} - {plan.eventType}
@@ -163,16 +162,16 @@ const MyPlans = ({
                         cross
                       </button>
                       <button
-                        onClick={() =>
-                          editPlan(plan, setEditPlanData, setShowEditPlan)
-                        }
+                        onClick={() => {
+                          editPlan(plan, setEditPlanData, setShowEditPlan);
+                          setSelectedEditPlanId(plan.planId);
+                        }}
                       >
                         edit
                       </button>
                     </div>
                   ) : null}
                 </summary>
-
                 <p>
                   <h4>Checklist</h4>
                   {plan.checkListItems.map((item, index) => (
@@ -192,16 +191,20 @@ const MyPlans = ({
                   ))}
                 </p>
               </details>
-            ))}
+              {showEditPlan && selectedEditPlanId === plan.planId && (
+                <EditPlan
+                  editPlanData={editPlanData}
+                  plans={plans}
+                  setShowEditPlan={setShowEditPlan}
+                  setPlans={setPlans}
+                />
+              )}
+            </div>
+          ))
+        ) : (
+          <p>No plans available for the selected category.</p>
+        )}
       </div>
-      {showEditPlan && (
-        <EditPlan
-          editPlanData={editPlanData}
-          plans={plans}
-          setShowEditPlan={setShowEditPlan}
-          setPlans={setPlans}
-        />
-      )}
     </div>
   );
 };

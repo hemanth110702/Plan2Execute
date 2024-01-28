@@ -26,7 +26,7 @@ const CreatePlan = ({
       const newPlan = Object.assign({}, plans);
       for (let plan in plans) {
         if (plan === planDate) {
-          newPlan[plan].planned.push({
+          newPlan[plan].planned[planId] = {
             planId,
             displayName,
             displayContent,
@@ -37,7 +37,7 @@ const CreatePlan = ({
             category: "planned",
             checkListItems,
             checkListStatus: false,
-          });
+          };
           setPlans(newPlan);
         }
       }
@@ -45,7 +45,7 @@ const CreatePlan = ({
       setPlans((prevPlans) => ({
         ...prevPlans,
         [planDate]: {
-          planned: [
+          planned: { [planId] :
             {
               planId,
               displayName,
@@ -57,8 +57,8 @@ const CreatePlan = ({
               category: "planned",
               checkListItems,
               checkListStatus: false,
-            },
-          ],
+            }
+          },
           executed: [],
           cancelled: [],
         },
