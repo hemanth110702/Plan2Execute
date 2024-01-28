@@ -28,40 +28,30 @@ const EditPlan = ({ editPlanData, plans, setShowEditPlan, setPlans }) => {
     setCheckListItems(newCheckList);
   };
 
-const updatePlan = () => {
-  const updatedPlan = {
-    ...editPlanData,
-    displayName,
-    displayContent,
-    startTime,
-    endTime,
-    eventType,
-    checkListItems,
+  const updatePlan = (e) => {
+    e.preventDefault();
+    const updatedPlan = {
+      ...editPlanData,
+      displayName,
+      displayContent,
+      startTime,
+      endTime,
+      eventType,
+      checkListItems,
+    };
+
+    console.log(updatedPlan);
+
+    const tempPlans = plans;
+    tempPlans[updatedPlan["planDate"]]["planned"][updatedPlan["planId"]] =
+      updatedPlan;
+
+    setPlans(tempPlans);
+  setShowEditPlan(false); 
   };
 
-  setPlans((prevPlans) => {
-    const updatedDatePlans = { ...prevPlans };
-
-    for (let [planDate, planInfo] of Object.entries(updatedDatePlans)) {
-      if (planDate === updatedPlan.planDate) {
-        const updatedPlans = planInfo.map((plan) =>
-          plan.planId === updatedPlan.planId ? updatedPlan : plan
-        );
-
-        updatedDatePlans[planDate] = updatedPlans;
-        break;
-      }
-    }
-
-    return updatedDatePlans;
-  });
-
-  setShowEditPlan(false);
-};
-
-
   return (
-    <form>
+    <form action="#">
       Display Name:
       <input
         type="text"

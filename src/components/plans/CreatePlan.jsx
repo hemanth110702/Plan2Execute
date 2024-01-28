@@ -59,8 +59,8 @@ const CreatePlan = ({
               checkListStatus: false,
             }
           },
-          executed: [],
-          cancelled: [],
+          executed: {},
+          cancelled: {},
         },
       }));
     }

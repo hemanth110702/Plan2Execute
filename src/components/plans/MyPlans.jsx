@@ -16,7 +16,7 @@ const MyPlans = ({
   selectedRegister,
   setSelectedRegister,
 }) => {
-  const [myPlans, setMyPlans] = useState([]);
+  const [myPlans, setMyPlans] = useState({});
   const [showPlans, setShowPlans] = useState("planned");
   const [showEditPlan, setShowEditPlan] = useState(false);
   const [editPlanData, setEditPlanData] = useState(null);
@@ -51,24 +51,21 @@ const MyPlans = ({
 
   useEffect(() => {
     console.log("myPlans", myPlans);
-    /* if (myPlans) {
+    if(myPlans && myPlans["planned"]){
+      countCategory();
       countEventType();
     }
-    countCategory();
-    let fd = myPlans.filter((plan) => plan.category === showPlans);
-    console.log("fd", fd); */
+    // Check if myPlans[showPlans] is defined and has keys
+
+    // Rest of your code...
   }, [myPlans]);
 
   const countCategory = () => {
     const counterObj = { planned: 0, executed: 0, cancelled: 0 };
-    for (let i = 0; i < myPlans.length; i++) {
-      if (myPlans[i].category === "planned") {
-        counterObj.planned += 1;
-      } else if (myPlans[i].category === "executed") {
-        counterObj.executed += 1;
-      } else {
-        counterObj.cancelled += 1;
-      }
+    if (myPlans &&  myPlans["planned"]) {
+      counterObj.planned = Object.keys(myPlans["planned"]).length;
+      counterObj.executed = Object.keys(myPlans["executed"]).length;
+      counterObj.cancelled = Object.keys(myPlans["cancelled"]).length;
     }
     setPlanCategoryCounter((prevCounter) => ({
       ...prevCounter,
@@ -81,19 +78,11 @@ const MyPlans = ({
   };
 
   const changeCategory = (categoryType, plan) => {
-    plan.category = categoryType;
-    const dayPlans = plans[plan.planDate];
-    console.log(dayPlans);
-    dayPlans[plan.category].push(plan);
-    const plannedArray = dayPlans.planned;
-    for (let i = 0; i < plannedArray.length; i++) {
-      if (plannedArray[i].planId === plan.planId) {
-        plannedArray.splice(i, 1);
-        break;
-      }
-    }
-    const newDayPlans = { ...dayPlans, planned: plannedArray };
-    setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: newDayPlans }));
+    console.log(categoryType, plan);
+    const tempMyPlans = myPlans;
+    tempMyPlans[categoryType][plan.planId] = { ...plan };
+    delete tempMyPlans["planned"][plan.planId];
+    setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: tempMyPlans }));
   };
 
   return (
@@ -101,19 +90,19 @@ const MyPlans = ({
       <div className="header">
         <h1>
           Seize the Day: Today's Plans{" "}
-          {/*     <button
+              <button
             onClick={() => {
               setSelectedRegister({ date: today, registerOn: "today" });
               setShowCreatePlan(true);
             }}
           >
             Add
-          </button>{" "} */}
+          </button>{" "}
         </h1>
-        {/*   <h3>
+          <h3>
           Events <br />
           {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
-        </h3> */}
+        </h3>
         <div>
           <button onClick={() => setShowPlans("planned")}>
             Planned {planCategoryCounter.planned}
@@ -133,38 +122,44 @@ const MyPlans = ({
         </div>
       </div>
       <div className="body">
-        {myPlans[showPlans] && myPlans[showPlans].length ? (
-          myPlans[showPlans].map((plan) => (
+        {myPlans != undefined &&
+        myPlans[showPlans] &&
+        Object.keys(myPlans[showPlans]).length ? (
+          Object.entries(myPlans[showPlans]).map((plan) => (
             <div>
               <details>
                 <summary>
-                  {plan.displayName} - {plan.eventType}
+                  {plan[1].displayName} - {plan[1].eventType}
                   <div>
-                    {plan.displayContent}{" "}
-                    {plan.checkListItems.length > 0 &&
-                      plan.checkListStatus &&
+                    {plan[1].displayContent}{" "}
+                    {plan[1].checkListItems.length > 0 &&
+                      plan[1].checkListStatus &&
                       "Checklist done"}{" "}
                   </div>
                   <div>
-                    {plan.startTime && plan.endTime && (
+                    {plan[1].startTime && plan[1].endTime && (
                       <CountdownTimer
-                        startTime={plan.startTime}
-                        endTime={plan.endTime}
+                        startTime={plan[1].startTime}
+                        endTime={plan[1].endTime}
                       />
                     )}
                   </div>
-                  {plan.category === "planned" ? (
+                  {plan[1].category === "planned" ? (
                     <div>
-                      <button onClick={() => changeCategory("executed", plan)}>
+                      <button
+                        onClick={() => changeCategory("executed", plan[1])}
+                      >
                         tick
                       </button>
-                      <button onClick={() => changeCategory("cancelled", plan)}>
+                      <button
+                        onClick={() => changeCategory("cancelled", plan[1])}
+                      >
                         cross
                       </button>
                       <button
                         onClick={() => {
-                          editPlan(plan, setEditPlanData, setShowEditPlan);
-                          setSelectedEditPlanId(plan.planId);
+                          setSelectedEditPlanId(plan[1].planId);
+                          editPlan(plan[1], setEditPlanData, setShowEditPlan);
                         }}
                       >
                         edit
@@ -174,7 +169,7 @@ const MyPlans = ({
                 </summary>
                 <p>
                   <h4>Checklist</h4>
-                  {plan.checkListItems.map((item, index) => (
+                  {plan[1].checkListItems.map((item, index) => (
                     <div>
                       {item.checkListItem}{" "}
                       <div>
@@ -182,7 +177,7 @@ const MyPlans = ({
                         <input
                           type="checkbox"
                           onChange={() =>
-                            checklistUpdater(index, plan, plans, setPlans)
+                            checklistUpdater(index, plan[1], plans, setPlans)
                           }
                           checked={item["status"]}
                         />
@@ -191,7 +186,7 @@ const MyPlans = ({
                   ))}
                 </p>
               </details>
-              {showEditPlan && selectedEditPlanId === plan.planId && (
+              {showEditPlan && selectedEditPlanId === plan[1].planId && (
                 <EditPlan
                   editPlanData={editPlanData}
                   plans={plans}

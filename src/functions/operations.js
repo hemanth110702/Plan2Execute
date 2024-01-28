@@ -51,8 +51,13 @@ export const dateToString = (dateValue) =>
   }-${dateValue.getDate()}`;
 
 // count category of each type
-export const eventTypeCounter = (events) => {
-  console.log(events);
+export const eventTypeCounter = (plansInIt) => {
+  const events = [
+    ...Object.values(plansInIt["planned"]),
+    ...Object.values(plansInIt["executed"]),
+    ...Object.values(plansInIt["cancelled"]),
+  ];
+  console.log("events", events);
   const eventType = {
     Personal: 0,
     Office: 0,
@@ -78,34 +83,28 @@ export const eventTypeCounter = (events) => {
 // checklist updater
 export const checklistUpdater = (index, plan, plans, setPlans) => {
   console.log("plan", plan, "plans", plans);
-  let updatePlan;
-  for (let [planDate, planInfo] of Object.entries(plans)) {
-    if (planDate === plan.planDate) {
-      updatePlan = planInfo;
-      break;
-    }
-  }
-  console.log("update plan", updatePlan);
+  const tempPlans = {...plans};
+
+  const updatePlan = tempPlans[plan.planDate]["planned"][plan.planId];
+  console.log(updatePlan);
+
   let checkListCounter = 0;
 
-  for (let i = 0; i < updatePlan.length; i++) {
-    if (plan.planId === updatePlan[i].planId) {
-      for (let j = 0; j < updatePlan[i].checkListItems.length; j++) {
-        if (j == index) {
-          updatePlan[i].checkListItems[j].status =
-            !updatePlan[i].checkListItems[j].status;
-        }
-        if (updatePlan[i].checkListItems[j].status) {
-          ++checkListCounter;
-          if (checkListCounter === updatePlan[i].checkListItems.length) {
-            updatePlan[i].checkListStatus = true;
-          } else {
-            updatePlan[i].checkListStatus = false;
-          }
-        }
+  for (let j = 0; j < updatePlan.checkListItems.length; j++) {
+    if (j == index) {
+      updatePlan.checkListItems[j].status =
+        !updatePlan.checkListItems[j].status;
+    }
+    if (updatePlan.checkListItems[j].status) {
+      ++checkListCounter;
+      if (checkListCounter === updatePlan.checkListItems.length) {
+        updatePlan.checkListStatus = true;
+      } else {
+        updatePlan.checkListStatus = false;
       }
     }
   }
+  tempPlans[plan.planDate]["planned"][plan.planId] = updatePlan;
 
-  setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: updatePlan }));
+  setPlans(tempPlans);
 };
