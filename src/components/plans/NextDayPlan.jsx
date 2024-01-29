@@ -14,8 +14,9 @@ const NextDayPlan = ({
   setShowCreatePlan,
   setSelectedRegister,
 }) => {
-  const [tmrwPlans, setTmrwPlans] = useState([]);
+  const [tmrwPlans, setTmrwPlans] = useState({});
   const [showEditPlan, setShowEditPlan] = useState(false);
+  const [editPlanData, setEditPlanData] = useState(null);
   const [events, setEvents] = useState({
     Personal: 0,
     Office: 0,
@@ -29,15 +30,20 @@ const NextDayPlan = ({
   const nextDay = dateToString(tomorrow);
   useEffect(() => {
     setTmrwPlans(plans[nextDay]);
+    /*   setTmrwPlans(plans[nextDay]);
     if (tmrwPlans) {
       countEventType();
     }
-    console.log("err");
-  }, [plans, tmrwPlans]);
+    console.log("err");  */
+  }, [plans]);
 
-  const countEventType = () => {
+  useEffect(() => {
+    console.log(tmrwPlans);
+  }, [tmrwPlans]);
+
+  /*  const countEventType = () => {
     setEvents(eventTypeCounter(tmrwPlans));
-  };
+  }; */
 
   return (
     <div className="tmrwPlans-container">
@@ -54,64 +60,70 @@ const NextDayPlan = ({
           </button>{" "}
         </h1>{" "}
         <br />
-        <h3>
-          Events <br />
-          {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
-        </h3>
       </div>
       <div className="tmrwPlans-body">
-        {tmrwPlans &&
-          tmrwPlans.map((plan) => (
-            <details key={plan.planId}>
-              <summary>
-                {plan.displayName} - {plan.eventType}
-                <div>
-                  <button
-                    onClick={() =>
-                      editPlan(plan, setEditPlanData, setShowEditPlan)
-                    }
-                  >
-                    edit
-                  </button>
-                  <button
-                    onClick={() =>
-                      deletePlan(plan, plans, setPlans, true, setTmrwPlans)
-                    }
-                  >
-                    delete
-                  </button>
-                </div>
-              </summary>
-
-              <p>
-                <h4>Checklist</h4>
-                {plan.checkListItems.map((item, index) => (
-                  <div>
-                    {item.checkListItem}{" "}
+        {tmrwPlans != undefined &&
+        tmrwPlans["planned"] &&
+        Object.keys(tmrwPlans["planned"]).length
+          ? Object.entries(tmrwPlans["planned"]).map((plan) => (
+              <div key={plan[1].planId}>
+                <details>
+                  <summary>
+                    {plan[1].displayName} - {plan[1].eventType}
                     <div>
-                      status:{" "}
-                      <input
-                        type="checkbox"
-                        onChange={() =>
-                          checklistUpdater(index, plan, plans, setPlans)
+                      <button
+                        onClick={() =>
+                          editPlan(plan[1], setEditPlanData, setShowEditPlan)
                         }
-                        checked={item["status"]}
-                      />
+                      >
+                        edit
+                      </button>
+                      <button
+                        onClick={() =>
+                          deletePlan(
+                            plan[1],
+                            plans,
+                            setPlans,
+                            true,
+                            setTmrwPlans
+                          )
+                        }
+                      >
+                        delete
+                      </button>
                     </div>
-                  </div>
-                ))}
-              </p>
-            </details>
-          ))}
+                  </summary>
+                  <p>
+                    <h4>Checklist</h4>
+                    {plan[1].checkListItems.map((item, index) => (
+                      <div key={index}>
+                        {item.checkListItem}{" "}
+                        <div>
+                          status:{" "}
+                          <input
+                            type="checkbox"
+                            onChange={() =>
+                              checklistUpdater(index, plan[1], plans, setPlans)
+                            }
+                            checked={item["status"]}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </p>
+                </details>
+                {showEditPlan && (
+                  <EditPlan
+                    editPlanData={editPlanData}
+                    plans={plans}
+                    setShowEditPlan={setShowEditPlan}
+                    setPlans={setPlans}
+                  />
+                )}
+              </div>
+            ))
+          : "no more plans"}
       </div>
-      {showEditPlan && (
-        <EditPlan
-          editPlanData={editPlanData}
-          plans={plans}
-          setShowEditPlan={setShowEditPlan}
-          setPlans={setPlans}
-        />
-      )}
     </div>
   );
 };

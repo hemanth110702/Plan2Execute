@@ -29,12 +29,12 @@ const Plans = ({ user, setUser, plans, setPlans }) => {
       </button>
       <div>
         <div className="plans-panel">
-        {/*   <NextDayPlan
+          <NextDayPlan
             plans={plans}
             setPlans={setPlans}
             setShowCreatePlan={setShowCreatePlan}
             setSelectedRegister={setSelectedRegister}
-          /> */}
+          />
           <MyPlans
             plans={plans}
             setPlans={setPlans}

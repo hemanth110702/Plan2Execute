@@ -41,17 +41,12 @@ const MyPlans = ({
   const today = dateToString(dateToday);
 
   useEffect(() => {
-    for (let [planDate, planInfo] of Object.entries(plans)) {
-      if (planDate === today) {
-        setMyPlans({ ...planInfo });
-        break;
-      }
-    }
+    setMyPlans(plans[today]);
   }, [plans]);
 
   useEffect(() => {
     console.log("myPlans", myPlans);
-    if(myPlans && myPlans["planned"]){
+    if (myPlans && myPlans["planned"]) {
       countCategory();
       countEventType();
     }
@@ -62,7 +57,7 @@ const MyPlans = ({
 
   const countCategory = () => {
     const counterObj = { planned: 0, executed: 0, cancelled: 0 };
-    if (myPlans &&  myPlans["planned"]) {
+    if (myPlans && myPlans["planned"]) {
       counterObj.planned = Object.keys(myPlans["planned"]).length;
       counterObj.executed = Object.keys(myPlans["executed"]).length;
       counterObj.cancelled = Object.keys(myPlans["cancelled"]).length;
@@ -90,7 +85,7 @@ const MyPlans = ({
       <div className="header">
         <h1>
           Seize the Day: Today's Plans{" "}
-              <button
+          <button
             onClick={() => {
               setSelectedRegister({ date: today, registerOn: "today" });
               setShowCreatePlan(true);
@@ -99,7 +94,7 @@ const MyPlans = ({
             Add
           </button>{" "}
         </h1>
-          <h3>
+        <h3>
           Events <br />
           {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
         </h3>

@@ -12,28 +12,12 @@ export const deletePlan = (
   isMyPlans = "false",
   setMyPlans = function () {}
 ) => {
-  let tempPlan;
-  for (let [planDate, planInfo] of Object.entries(plans)) {
-    if (planDate === plan.planDate) {
-      tempPlan = planInfo;
-      break;
-    }
-  }
-
-  let indexToDelete = 0;
-
-  for (let i = 0; i < tempPlan.length; i++) {
-    if (tempPlan[i].planId == plan.planId) {
-      indexToDelete = i;
-      break;
-    }
-  }
-
-  tempPlan.splice(indexToDelete, 1);
+  const tempPlan = plans[plan[planDate]]["planned"];
+ 
+  delete tempPlan[plan.planId];
   const oldPlans = plans;
-  console.log("utp", tempPlan);
 
-  if (tempPlan.length === 0) {
+  if (Object.keys(tempPlan).length === 0) {
     delete oldPlans[plan.planDate];
     setPlans((_) => ({ ...oldPlans }));
     if (isMyPlans) {
@@ -83,7 +67,7 @@ export const eventTypeCounter = (plansInIt) => {
 // checklist updater
 export const checklistUpdater = (index, plan, plans, setPlans) => {
   console.log("plan", plan, "plans", plans);
-  const tempPlans = {...plans};
+  const tempPlans = { ...plans };
 
   const updatePlan = tempPlans[plan.planDate]["planned"][plan.planId];
   console.log(updatePlan);
