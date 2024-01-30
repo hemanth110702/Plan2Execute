@@ -24,7 +24,7 @@ export const deletePlan = (
       delete updatedPlans[planDate];
     }
 
-    setPlans({ ...updatedPlans });
+    setPlans((_)=>({ ...updatedPlans }));
   }
 
   console.log(updatedPlans);
@@ -38,6 +38,7 @@ export const dateToString = (dateValue) =>
 
 // count category of each type
 export const eventTypeCounter = (plansInIt) => {
+  console.log("plansinit",plansInIt);
   const eventType = {
     Personal: 0,
     Office: 0,

@@ -50,10 +50,8 @@ const MyPlans = ({
   useEffect(() => {
     console.log("updated myPlans");
     console.log("myPlans", myPlans);
-    if (myPlans) {
-      countCategory();
-      countEventType();
-    }
+    countCategory();
+    countEventType();
   }, [myPlans]);
 
   const countCategory = () => {
@@ -76,9 +74,7 @@ const MyPlans = ({
   };
 
   const countEventType = () => {
-    if (myPlans) {
-      setEvents(eventTypeCounter(myPlans));
-    }
+    setEvents(()=>eventTypeCounter(myPlans));
   };
 
   const changeCategory = (categoryType, plan) => {

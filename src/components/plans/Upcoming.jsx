@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { checklistUpdater, dateToString, deletePlan, editPlan } from "../../functions/operations";
+import {
+  checklistUpdater,
+  dateToString,
+  deletePlan,
+  editPlan,
+  eventTypeCounter,
+} from "../../functions/operations";
 import EditPlan from "./EditPlan";
 
 const Upcoming = ({
@@ -29,38 +35,32 @@ const Upcoming = ({
         (planDate) => planDate[0] > presentDateFormat
       )
     );
-    setUpcomingPlans((prevPlans) => ({ ...prevPlans, ...filterUpcoming }));
+    setUpcomingPlans((_) => ({ ...filterUpcoming }));
   }, [plans]);
 
   useEffect(() => {
-    console.log(upcomingPlans);
+    console.log("upc", upcomingPlans);
+    console.log("plans n upc", plans);
+    eventsCounter();
   }, [upcomingPlans]);
 
-  /*  useEffect(() => {
-    // count the total of each event
-    const eventType = {
-      Personal: 0,
-      Office: 0,
-      Bill: 0,
-      Other: 0,
-    };
-    for (let i = 0; i < upcomingPlans.length; i++) {
-      for (let j = 0; j < upcomingPlans[i][1].length; j++) {
-        if (upcomingPlans[i][1][j].eventType === "Personal") {
-          eventType.Personal = eventType.Personal + 1;
-        } else if (upcomingPlans[i][1][j].eventType === "Office") {
-          eventType.Office = eventType.Office + 1;
-        } else if (upcomingPlans[i][1][j].eventType === "Bill") {
-          eventType.Bill = eventType.Bill + 1;
-        } else {
-          eventType.Other = eventType.Other + 1;
-        }
-      }
-    }
-    setUpcomingEvents(eventType);
-    console.log("ucp", upcomingPlans);
-  }, [upcomingPlans]); */
+ const eventsCounter = () => {
+   const gatherer = [];
+   for (let [planDate, planData] of Object.entries(upcomingPlans)) {
+     gatherer.push(...Object.values(planData["planned"]));
+   }
+   console.log(...gatherer);
 
+   const plansInIt = {
+     planned: [...gatherer],
+     executed: {},
+     cancelled: {},
+   };
+
+   setUpcomingEvents(() => eventTypeCounter(plansInIt));
+ };
+
+  
   return (
     <div className="upcoming-container">
       <div className="header">

@@ -35,9 +35,7 @@ const NextDayPlan = ({
   }, [plans]);
 
   useEffect(() => {
-    if (tmrwPlans) {
-      countEventType();
-    }
+    countEventType();
   }, [tmrwPlans]);
 
   const countEventType = () => {
