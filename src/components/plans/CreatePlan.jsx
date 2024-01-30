@@ -22,7 +22,7 @@ const CreatePlan = ({
     const eventType = formData.get("eventType") || "Other";
     const planId = Date.now();
 
-    if (planDate in plans) {
+    if (plans && plans[planDate]) {
       const newPlan = Object.assign({}, plans);
       for (let plan in plans) {
         if (plan === planDate) {

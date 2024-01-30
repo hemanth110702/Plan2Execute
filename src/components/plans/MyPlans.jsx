@@ -40,26 +40,33 @@ const MyPlans = ({
   const presentDate = dateToday.getDate();
   const today = dateToString(dateToday);
 
-  useEffect(() => {
-    setMyPlans(plans[today]);
-  }, [plans]);
+useEffect(() => {
+  setMyPlans((prevPlans) => ({
+    ...prevPlans,
+    ...plans[today],
+  }));
+}, [plans, today]);
 
   useEffect(() => {
+    console.log("updated myPlans");
     console.log("myPlans", myPlans);
-    if (myPlans && myPlans["planned"]) {
+    if (myPlans) {
       countCategory();
-      countEventType();
+      /* countEventType(); */
     }
-    // Check if myPlans[showPlans] is defined and has keys
-
-    // Rest of your code...
   }, [myPlans]);
 
   const countCategory = () => {
     const counterObj = { planned: 0, executed: 0, cancelled: 0 };
     if (myPlans && myPlans["planned"]) {
       counterObj.planned = Object.keys(myPlans["planned"]).length;
+    }
+
+    if (myPlans && myPlans["executed"]) {
       counterObj.executed = Object.keys(myPlans["executed"]).length;
+    }
+
+    if (myPlans && myPlans["cancelled"]) {
       counterObj.cancelled = Object.keys(myPlans["cancelled"]).length;
     }
     setPlanCategoryCounter((prevCounter) => ({
@@ -68,9 +75,11 @@ const MyPlans = ({
     }));
   };
 
-  const countEventType = () => {
-    setEvents(eventTypeCounter(myPlans));
-  };
+  /*   const countEventType = () => {
+    if(myPlans) {
+      setEvents(eventTypeCounter(myPlans));
+    }
+  }; */
 
   const changeCategory = (categoryType, plan) => {
     console.log(categoryType, plan);
@@ -100,13 +109,13 @@ const MyPlans = ({
         </h3>
         <div>
           <button onClick={() => setShowPlans("planned")}>
-            Planned {planCategoryCounter.planned}
+            Planned {planCategoryCounter["planned"]}
           </button>
           <button onClick={() => setShowPlans("executed")}>
-            Executed {planCategoryCounter.executed}
+            Executed {planCategoryCounter["executed"]}
           </button>
           <button onClick={() => setShowPlans("cancelled")}>
-            Cancelled {planCategoryCounter.cancelled}
+            Cancelled {planCategoryCounter["cancelled"]}
           </button>
         </div>
         <div className="date-container">

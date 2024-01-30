@@ -9,23 +9,25 @@ export const deletePlan = (
   plan,
   plans,
   setPlans,
-  isMyPlans = "false",
+  isMyPlans = false,
   setMyPlans = function () {}
 ) => {
-  const tempPlan = plans[plan[planDate]]["planned"];
- 
-  delete tempPlan[plan.planId];
-  const oldPlans = plans;
+  const planDate = plan.planDate;
+  const planId = plan.planId;
 
-  if (Object.keys(tempPlan).length === 0) {
-    delete oldPlans[plan.planDate];
-    setPlans((_) => ({ ...oldPlans }));
-    if (isMyPlans) {
-      setMyPlans(() => []);
+  const updatedPlans = { ...plans };
+
+  if (updatedPlans[planDate] && updatedPlans[planDate]["planned"]) {
+    delete updatedPlans[planDate]["planned"][planId];
+
+    if (Object.keys(updatedPlans[planDate]["planned"]).length === 0) {
+      delete updatedPlans[planDate];
     }
-  } else {
-    setPlans((prevPlans) => ({ ...prevPlans, [plan.planDate]: tempPlan }));
+
+    setPlans({ ...updatedPlans });
   }
+
+  console.log(updatedPlans);
 };
 
 //Date to string format
