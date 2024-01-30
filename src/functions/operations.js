@@ -38,18 +38,21 @@ export const dateToString = (dateValue) =>
 
 // count category of each type
 export const eventTypeCounter = (plansInIt) => {
-  const events = [
-    ...Object.values(plansInIt["planned"]),
-    ...Object.values(plansInIt["executed"]),
-    ...Object.values(plansInIt["cancelled"]),
-  ];
-  console.log("events", events);
   const eventType = {
     Personal: 0,
     Office: 0,
     Bill: 0,
     Other: 0,
   };
+  if (Object.keys(plansInIt).length === 0) {
+    return eventType;
+  }
+  const events = [
+    ...Object.values(plansInIt["planned"]),
+    ...Object.values(plansInIt["executed"]),
+    ...Object.values(plansInIt["cancelled"]),
+  ];
+  console.log("events", events);
   if (events.length) {
     for (let i = 0; i < events.length; i++) {
       if (events[i].eventType === "Personal") {

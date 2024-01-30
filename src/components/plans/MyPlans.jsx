@@ -40,19 +40,19 @@ const MyPlans = ({
   const presentDate = dateToday.getDate();
   const today = dateToString(dateToday);
 
-useEffect(() => {
-  setMyPlans((prevPlans) => ({
-    ...prevPlans,
-    ...plans[today],
-  }));
-}, [plans, today]);
+  useEffect(() => {
+    setMyPlans((prevPlans) => ({
+      ...prevPlans,
+      ...plans[today],
+    }));
+  }, [plans, today]);
 
   useEffect(() => {
     console.log("updated myPlans");
     console.log("myPlans", myPlans);
     if (myPlans) {
       countCategory();
-      /* countEventType(); */
+      countEventType();
     }
   }, [myPlans]);
 
@@ -75,11 +75,11 @@ useEffect(() => {
     }));
   };
 
-  /*   const countEventType = () => {
-    if(myPlans) {
+  const countEventType = () => {
+    if (myPlans) {
       setEvents(eventTypeCounter(myPlans));
     }
-  }; */
+  };
 
   const changeCategory = (categoryType, plan) => {
     console.log(categoryType, plan);
