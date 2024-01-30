@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
-import { dateToString, deletePlan, editPlan } from "../../functions/operations";
+import { checklistUpdater, dateToString, deletePlan, editPlan } from "../../functions/operations";
 import EditPlan from "./EditPlan";
 
-const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) => {
-  const [upcomingPlans, setUpcomingPlans] = useState([]);
+const Upcoming = ({
+  plans,
+  setPlans,
+  setShowCreatePlan,
+  setSelectedRegister,
+}) => {
+  const [upcomingPlans, setUpcomingPlans] = useState({});
   const [showEditPlan, setShowEditPlan] = useState(false);
+  const [selectedEditPlanId, setSelectedEditPlanId] = useState(null);
   const [editPlanData, setEditPlanData] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState({
     Personal: 0,
@@ -18,13 +24,19 @@ const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) =
 
   useEffect(() => {
     //filter the upcoming plans
-    const filterUpcoming = Object.entries(plans).filter(
-      (planDate) => planDate[0] > presentDateFormat
+    const filterUpcoming = Object.fromEntries(
+      Object.entries(plans).filter(
+        (planDate) => planDate[0] > presentDateFormat
+      )
     );
-    setUpcomingPlans(filterUpcoming);
+    setUpcomingPlans((prevPlans) => ({ ...prevPlans, ...filterUpcoming }));
   }, [plans]);
 
- /*  useEffect(() => {
+  useEffect(() => {
+    console.log(upcomingPlans);
+  }, [upcomingPlans]);
+
+  /*  useEffect(() => {
     // count the total of each event
     const eventType = {
       Personal: 0,
@@ -51,30 +63,40 @@ const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) =
 
   return (
     <div className="upcoming-container">
-     {/*  <div className="header">
-        <h1>Future Goals: Upcoming Endeavors <button onClick={
-          () => {
-            setSelectedRegister({ date: "" });
-            setShowCreatePlan(true);
-        }}>Add</button></h1>
+      <div className="header">
+        <h1>
+          Future Goals: Upcoming Endeavors{" "}
+          <button
+            onClick={() => {
+              setSelectedRegister({ date: "" });
+              setShowCreatePlan(true);
+            }}
+          >
+            Add
+          </button>
+        </h1>
         <h3>
           Events <br />{" "}
           {`Prs: ${upcomingEvents["Personal"]} | Off: ${upcomingEvents["Office"]} | Bills: ${upcomingEvents["Bill"]} | Oth: ${upcomingEvents["Other"]} `}
         </h3>
-      </div> */}
+      </div>
       <div className="body">
-        {/* {upcomingPlans.map((planDate) => (
-          <details>
-            <summary>{planDate[0]}</summary>
+        {Object.entries(upcomingPlans).map(([planDate, plansData]) => (
+          <details key={planDate}>
+            <summary>{planDate}</summary>
             <div>
-              {planDate[1].map((plan) => (
-                <details>
+              {Object.values(plansData.planned).map((plan) => (
+                <details key={plan.planId}>
                   <summary>
                     {plan.displayName}{" "}
+                    {plan.checkListItems.length > 0 &&
+                      plan.checkListStatus &&
+                      "Checklist done"}
                     <button
-                      onClick={() =>
-                        editPlan(plan, setEditPlanData, setShowEditPlan)
-                      }
+                      onClick={() => {
+                        setSelectedEditPlanId(plan.planId);
+                        editPlan(plan, setEditPlanData, setShowEditPlan);
+                      }}
                     >
                       edit
                     </button>{" "}
@@ -84,8 +106,24 @@ const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) =
                   </summary>
                   <div>
                     <p>{plan.displayContent}</p>
+                    <h4>Checklist</h4>
+                    {plan.checkListItems.map((item, index) => (
+                      <div key={index}>
+                        {item.checkListItem}{" "}
+                        <div>
+                          status:{" "}
+                          <input
+                            type="checkbox"
+                            onChange={() =>
+                              checklistUpdater(index, plan, plans, setPlans)
+                            }
+                            checked={item["status"]}
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  {showEditPlan && (
+                  {showEditPlan && selectedEditPlanId === plan.planId && (
                     <EditPlan
                       editPlanData={editPlanData}
                       plans={plans}
@@ -97,7 +135,7 @@ const Upcoming = ({ plans, setPlans, setShowCreatePlan, setSelectedRegister }) =
               ))}
             </div>
           </details>
-        ))} */}
+        ))}
       </div>
     </div>
   );

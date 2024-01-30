@@ -88,9 +88,9 @@ export const checklistUpdater = (index, plan, plans, setPlans) => {
       ++checkListCounter;
       if (checkListCounter === updatePlan.checkListItems.length) {
         updatePlan.checkListStatus = true;
-      } else {
-        updatePlan.checkListStatus = false;
       }
+    } else {
+      updatePlan.checkListStatus = false;
     }
   }
   tempPlans[plan.planDate]["planned"][plan.planId] = updatePlan;

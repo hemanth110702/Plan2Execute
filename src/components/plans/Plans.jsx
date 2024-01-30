@@ -43,12 +43,12 @@ const Plans = ({ user, setUser, plans, setPlans }) => {
           />
         </div>
       </div>
-     {/*  <Upcoming
+      <Upcoming
         plans={plans}
         setPlans={setPlans}
         setShowCreatePlan={setShowCreatePlan}
         setSelectedRegister={setSelectedRegister}
-      /> */}
+      />
       {showCreatePlan && (
         <CreatePlan
           selectedRegister={selectedRegister}

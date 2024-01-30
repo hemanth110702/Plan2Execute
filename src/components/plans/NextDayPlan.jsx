@@ -17,6 +17,7 @@ const NextDayPlan = ({
   const [tmrwPlans, setTmrwPlans] = useState({});
   const [showEditPlan, setShowEditPlan] = useState(false);
   const [editPlanData, setEditPlanData] = useState(null);
+  const [selectedEditPlanId, setSelectedEditPlanId] = useState(null);
   const [events, setEvents] = useState({
     Personal: 0,
     Office: 0,
@@ -29,21 +30,19 @@ const NextDayPlan = ({
   tomorrow.setDate(today.getDate() + 1);
   const nextDay = dateToString(tomorrow);
   useEffect(() => {
-    setTmrwPlans(plans[nextDay]);
-    /*   setTmrwPlans(plans[nextDay]);
-    if (tmrwPlans) {
-      countEventType();
-    }
-    console.log("err");  */
+    setTmrwPlans((prevPlans) => ({ ...prevPlans, ...plans[nextDay] }));
+    console.log("err");
   }, [plans]);
 
   useEffect(() => {
-    console.log(tmrwPlans);
+    if (tmrwPlans) {
+      countEventType();
+    }
   }, [tmrwPlans]);
 
-  /*  const countEventType = () => {
+  const countEventType = () => {
     setEvents(eventTypeCounter(tmrwPlans));
-  }; */
+  };
 
   return (
     <div className="tmrwPlans-container">
@@ -59,6 +58,10 @@ const NextDayPlan = ({
             Add
           </button>{" "}
         </h1>{" "}
+        <h3>
+          Events <br />
+          {`Prs: ${events["Personal"]} | Off: ${events["Office"]} | Bills: ${events["Bill"]} | Oth: ${events["Other"]} `}
+        </h3>
         <br />
       </div>
       <div className="tmrwPlans-body">
@@ -70,11 +73,15 @@ const NextDayPlan = ({
                 <details>
                   <summary>
                     {plan[1].displayName} - {plan[1].eventType}
+                    {plan[1].checkListItems.length > 0 &&
+                      plan[1].checkListStatus &&
+                      "Checklist done"}
                     <div>
                       <button
-                        onClick={() =>
-                          editPlan(plan[1], setEditPlanData, setShowEditPlan)
-                        }
+                        onClick={() => {
+                          setSelectedEditPlanId(plan[1].planId);
+                          editPlan(plan[1], setEditPlanData, setShowEditPlan);
+                        }}
                       >
                         edit
                       </button>
@@ -112,7 +119,7 @@ const NextDayPlan = ({
                     ))}
                   </p>
                 </details>
-                {showEditPlan && (
+                {showEditPlan && selectedEditPlanId === plan[1].planId && (
                   <EditPlan
                     editPlanData={editPlanData}
                     plans={plans}
