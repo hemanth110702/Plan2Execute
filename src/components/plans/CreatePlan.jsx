@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { dateToString } from "../../functions/operations";
 
 const CreatePlan = ({
   selectedRegister,
@@ -45,8 +46,8 @@ const CreatePlan = ({
       setPlans((prevPlans) => ({
         ...prevPlans,
         [planDate]: {
-          planned: { [planId] :
-            {
+          planned: {
+            [planId]: {
               planId,
               displayName,
               displayContent,
@@ -57,7 +58,7 @@ const CreatePlan = ({
               category: "planned",
               checkListItems,
               checkListStatus: false,
-            }
+            },
           },
           executed: {},
           cancelled: {},
@@ -93,6 +94,24 @@ const CreatePlan = ({
     setCheckListItems(newCheckList);
   };
 
+  const updateDate = (query) => {
+    const dateToday = new Date();
+    if (query === "today") {
+      const today = dateToString(dateToday);
+      setSelectedRegister((prevData) => ({
+        ...prevData,
+        date: today,
+      }));
+    } else {
+      const tomorrow = new Date(dateToday);
+      tomorrow.setDate(dateToday.getDate() + 1);
+      const nextDay = dateToString(tomorrow);
+      setSelectedRegister((prevData) => ({
+        ...prevData,
+        date: nextDay,
+      }));
+    }
+  };
   return (
     <div className="create-plan-container">
       <form onSubmit={addPlan}>
@@ -129,7 +148,8 @@ const CreatePlan = ({
               date: e.target.value,
             }))
           }
-        />
+        />{" "}
+        <button onClick={()=>updateDate("today")}>Today</button> <button onClick={()=>updateDate("nextDay")}>Tomorrow</button>
         <br />
         Start Time: <input type="time" name="start-time" />
         <br />
