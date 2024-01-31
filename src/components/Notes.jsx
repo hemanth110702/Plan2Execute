@@ -7,6 +7,7 @@ const Notes = () => {
   const [viewNotes, setViewNotes] = useState(false);
   const [presentNoteId, setPresentNoteId] = useState(null);
   const [showTimestamp, setShowTimestamp] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const createNote = (e) => {
     e.preventDefault();
@@ -44,20 +45,32 @@ const Notes = () => {
 
   const deleteNote = (e) => {
     e.preventDefault();
-    const tempNotes = notes;
+    const tempNotes = { ...notes };
     delete tempNotes[presentNoteId];
-    setNotes((_) => tempNotes);
+    setNotes(tempNotes);
     setPresentNoteId("");
     setViewNotes(false);
   };
+
+  const filteredNotes = Object.values(notes).filter((note) =>
+    note.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="notes-container">
       <div>
         <h3>Your notes</h3>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
-        {Object.values(notes).map((note) => (
-          <h2 onClick={() => viewNote(note)}>{note.title}</h2>
+        {filteredNotes.map((note) => (
+          <h2 key={note.noteId} onClick={() => viewNote(note)}>
+            {note.title}
+          </h2>
         ))}
       </div>
       <div>
@@ -82,8 +95,8 @@ const Notes = () => {
           {!viewNotes && <button onClick={createNote}>Create</button>}
           {viewNotes && (
             <div>
-              <button onClick={updateNote}>update</button>
-              <button onClick={deleteNote}>delete</button>
+              <button onClick={updateNote}>Update</button>
+              <button onClick={deleteNote}>Delete</button>
             </div>
           )}
         </form>
