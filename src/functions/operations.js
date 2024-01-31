@@ -24,7 +24,7 @@ export const deletePlan = (
       delete updatedPlans[planDate];
     }
 
-    setPlans((_)=>({ ...updatedPlans }));
+    setPlans((_) => ({ ...updatedPlans }));
   }
 
   console.log(updatedPlans);
@@ -32,13 +32,11 @@ export const deletePlan = (
 
 //Date to string format
 export const dateToString = (dateValue) =>
-  `${dateValue.getFullYear()}-${
-    (dateValue.getMonth() + 1 < 10 ? "0" : "") + (dateValue.getMonth() + 1)
-  }-${dateValue.getDate()}`;
+  dateValue.toISOString().split("T")[0];
 
 // count category of each type
 export const eventTypeCounter = (plansInIt) => {
-  console.log("plansinit",plansInIt);
+  console.log("plansinit", plansInIt);
   const eventType = {
     Personal: 0,
     Office: 0,

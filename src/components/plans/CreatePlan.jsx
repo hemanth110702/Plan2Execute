@@ -94,24 +94,28 @@ const CreatePlan = ({
     setCheckListItems(newCheckList);
   };
 
-  const updateDate = (query) => {
+  const updateDate = (e, query) => {
+    e.preventDefault();
+    console.log("dddddd");
     const dateToday = new Date();
     if (query === "today") {
       const today = dateToString(dateToday);
+      console.log(dateToday);
       setSelectedRegister((prevData) => ({
         ...prevData,
         date: today,
       }));
-    } else {
-      const tomorrow = new Date(dateToday);
-      tomorrow.setDate(dateToday.getDate() + 1);
-      const nextDay = dateToString(tomorrow);
-      setSelectedRegister((prevData) => ({
-        ...prevData,
-        date: nextDay,
-      }));
+    }
+    if (query === "tomorrow") {
+      const currentDate = new Date();
+      const tomorrowDate = new Date();
+      tomorrowDate.setDate(currentDate.getDate() + 1);
+      const tomorrowFormatted = dateToString(tomorrowDate);
+      console.log(tomorrowFormatted);
+      setSelectedRegister({ date: tomorrowFormatted });
     }
   };
+
   return (
     <div className="create-plan-container">
       <form onSubmit={addPlan}>
@@ -149,7 +153,8 @@ const CreatePlan = ({
             }))
           }
         />{" "}
-        <button onClick={()=>updateDate("today")}>Today</button> <button onClick={()=>updateDate("nextDay")}>Tomorrow</button>
+        <button onClick={(e) => updateDate(e, "today")}>Today</button>{" "}
+        <button onClick={(e) => updateDate(e, "tomorrow")}>Tomorrow</button>
         <br />
         Start Time: <input type="time" name="start-time" />
         <br />

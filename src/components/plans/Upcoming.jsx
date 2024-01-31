@@ -44,23 +44,22 @@ const Upcoming = ({
     eventsCounter();
   }, [upcomingPlans]);
 
- const eventsCounter = () => {
-   const gatherer = [];
-   for (let [planDate, planData] of Object.entries(upcomingPlans)) {
-     gatherer.push(...Object.values(planData["planned"]));
-   }
-   console.log(...gatherer);
+  const eventsCounter = () => {
+    const gatherer = [];
+    for (let [planDate, planData] of Object.entries(upcomingPlans)) {
+      gatherer.push(...Object.values(planData["planned"]));
+    }
+    console.log(...gatherer);
 
-   const plansInIt = {
-     planned: [...gatherer],
-     executed: {},
-     cancelled: {},
-   };
+    const plansInIt = {
+      planned: [...gatherer],
+      executed: {},
+      cancelled: {},
+    };
 
-   setUpcomingEvents(() => eventTypeCounter(plansInIt));
- };
+    setUpcomingEvents(() => eventTypeCounter(plansInIt));
+  };
 
-  
   return (
     <div className="upcoming-container">
       <div className="header">

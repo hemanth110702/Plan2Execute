@@ -1,5 +1,3 @@
-checklist functionality ni myPlans, ndp
-add today and tomorrow button for plans
 history
 notes
 add birthday check and add to present plans functionality // link birthdays and plan
@@ -11,3 +9,6 @@ add filter to sort in upcoming based on eventType
 add birthday to present plan if there is birthday today
 tick mark beside event type counter
 add remaining state in eventTypeCounter per: 3 (4)
+add upcoming days in upcoming
+cntrl + n - to create plan
+esc - to close the plan
