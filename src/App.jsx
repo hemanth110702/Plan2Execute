@@ -13,6 +13,7 @@ function App() {
   const [user, setUser] = useState(auth?.currentUser?.displayName);
   const navigate = useNavigate();
   const [plans, setPlans] = useState({});
+  const [notes, setNotes] = useState({});
   const [birthdays, setBirthdays] = useState({
     January: [],
     February: [],
@@ -135,7 +136,10 @@ function App() {
               <Birthdays birthdays={birthdays} setBirthdays={setBirthdays} />
             }
           />
-          <Route path="notes" element={<Notes />} />
+          <Route
+            path="notes"
+            element={<Notes notes={notes} setNotes={setNotes} />}
+          />
         </Route>
       </Routes>
     </>

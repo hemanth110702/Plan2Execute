@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-const Notes = () => {
+const Notes = ({ notes, setNotes }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [notes, setNotes] = useState({});
   const [viewNotes, setViewNotes] = useState(false);
   const [presentNoteId, setPresentNoteId] = useState(null);
   const [showTimestamp, setShowTimestamp] = useState("");
