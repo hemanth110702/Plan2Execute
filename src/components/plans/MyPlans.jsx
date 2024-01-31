@@ -168,7 +168,7 @@ const MyPlans = ({
                   ) : null}
                 </summary>
                 <p>
-                  <h4>Checklist</h4>
+                  Checklist <br />
                   {plan[1].checkListItems.map((item, index) => (
                     <div>
                       {item.checkListItem}{" "}

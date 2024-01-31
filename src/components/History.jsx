@@ -7,58 +7,60 @@ const History = (
   }
 ) => {
   const plans = {
-    "2024-01-31": [
-      {
-        planId: 1706360462416,
-        displayName: "test 1",
-        displayContent: "dsad",
-        planDate: "2024-01-31",
-        startTime: "",
-        endTime: "",
-        eventType: "Personal",
-        category: "planned",
-        checkListItems: [],
-        checkListStatus: false,
+    "2024-02-01": {
+      planned: {
+        1706661350192: {
+          planId: 1706661350192,
+          displayName: "test 1",
+          displayContent: "",
+          planDate: "2024-02-01",
+          startTime: "",
+          endTime: "",
+          eventType: "Personal",
+          category: "planned",
+          checkListItems: [],
+          checkListStatus: false,
+        },
       },
-      {
-        planId: 1706360462416,
-        displayName: "test 2",
-        displayContent: "dsad",
-        planDate: "2024-01-31",
-        startTime: "",
-        endTime: "",
-        eventType: "Personal",
-        category: "planned",
-        checkListItems: [],
-        checkListStatus: false,
+      executed: {},
+      cancelled: {},
+    },
+    "2024-02-06": {
+      planned: {
+        1706661367076: {
+          planId: 1706661367076,
+          displayName: "test 3",
+          displayContent: "",
+          planDate: "2024-02-06",
+          startTime: "",
+          endTime: "",
+          eventType: "Personal",
+          category: "planned",
+          checkListItems: [],
+          checkListStatus: false,
+        },
       },
-      {
-        planId: 1706360462416,
-        displayName: "test 3",
-        displayContent: "dsad",
-        planDate: "2024-01-31",
-        startTime: "",
-        endTime: "",
-        eventType: "Personal",
-        category: "planned",
-        checkListItems: [],
-        checkListStatus: false,
+      executed: {},
+      cancelled: {},
+    },
+    "2024-02-16": {
+      planned: {
+        1706661359358: {
+          planId: 1706661359358,
+          displayName: "test 2",
+          displayContent: "",
+          planDate: "2024-02-16",
+          startTime: "",
+          endTime: "",
+          eventType: "Personal",
+          category: "planned",
+          checkListItems: [],
+          checkListStatus: false,
+        },
       },
-    ],
-    "2024-01-29": [
-      {
-        planId: 1706360468944,
-        displayName: "test 2",
-        displayContent: "dsad",
-        planDate: "2024-01-29",
-        startTime: "",
-        endTime: "",
-        eventType: "Personal",
-        category: "planned",
-        checkListItems: [],
-        checkListStatus: false,
-      },
-    ],
+      executed: {},
+      cancelled: {},
+    },
   };
 
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -68,7 +70,7 @@ const History = (
     const filteredPlans = Object.entries(plans).filter(([key]) =>
       key.includes(selectedMonth)
     );
-    console.log("sm", selectedMonth);
+    console.log(filteredPlans);
     setPlanHistory(filteredPlans);
   };
 
@@ -85,27 +87,61 @@ const History = (
       </label>
       <button onClick={handleViewPlans}>View Plans</button>
       <div className="plan-history">
-        {/*    {planHistory.length > 0 && (
+        <div className="heading">
+          {selectedMonth || <h1>Select month and year</h1>}
+        </div>
+        {Object.keys(planHistory).length > 0 && (
           <div>
             <h2>Planned</h2>
-            {planHistory.map(([planDate, plans]) => (
-              <details key={planDate}>
-                <summary>{planDate}</summary>
-                {plans
-                  .filter((plan) => plan.category === "planned")
-                  .map((plan) => (
-                    <div key={plan.planId}>
-                      <p>{plan.displayName}</p>
-                      <p>{plan.displayContent}</p>
-                    </div>
+            {planHistory.map((plans) => (
+              <details>
+                <summary>{plans[0]}</summary>
+                <div>
+                  <h3>Planned</h3>
+                  {Object.values(plans[1]["planned"]).map((plan) => (
+                    <details>
+                      <summary>{plan.displayName}</summary>
+                      <div>
+                        {plan.displayContent} <br />
+                        <p>
+                          Checklist <br />
+                          {plan.checkListItems.map((item, index) => (
+                            <div>
+                              {item.checkListItem}{" "}
+                              <div>
+                                status:{" "}
+                                <input type="checkbox" value={item["status"]} />
+                                {}
+                              </div>
+                            </div>
+                          ))}
+                        </p>
+                      </div>
+                    </details>
                   ))}
+                </div>
+                <div>
+                  <h3>Executed</h3>
+                  {Object.values(plans[1]["executed"]).map((plan) => (
+                    <details>
+                      <summary>{plan.displayName}</summary>
+                      <div>{plan.displayContent}</div>
+                    </details>
+                  ))}
+                </div>
+                <div>
+                  <h3>Cancelled</h3>
+                  {Object.values(plans[1]["cancelled"]).map((plan) => (
+                    <details>
+                      <summary>{plan.displayName}</summary>
+                      <div>{plan.displayContent}</div>
+                    </details>
+                  ))}
+                </div>
               </details>
             ))}
           </div>
-        )} */}
-
-        {/* Add sections for Executed and Canceled here */}
-        {/* Similar to the "Planned" section above */}
+        )}
       </div>
     </div>
   );

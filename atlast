@@ -12,3 +12,4 @@ add remaining state in eventTypeCounter per: 3 (4)
 add upcoming days in upcoming
 cntrl + n - to create plan
 esc - to close the plan
+dont allow the user to select date before today
