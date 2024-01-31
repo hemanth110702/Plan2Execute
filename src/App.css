@@ -91,3 +91,11 @@ body {
 .tmrwPlans-container {
   background-color: olive;
 }
+
+/* -- Notes  -------------------------------------------------- */
+
+.notes-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

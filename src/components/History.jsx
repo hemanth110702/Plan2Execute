@@ -1,68 +1,6 @@
 import { useState } from "react";
-import { months } from "../staticData/CalenderCollection";
 
-const History = (
-  {
-    /* plans */
-  }
-) => {
-  const plans = {
-    "2024-02-01": {
-      planned: {
-        1706661350192: {
-          planId: 1706661350192,
-          displayName: "test 1",
-          displayContent: "",
-          planDate: "2024-02-01",
-          startTime: "",
-          endTime: "",
-          eventType: "Personal",
-          category: "planned",
-          checkListItems: [],
-          checkListStatus: false,
-        },
-      },
-      executed: {},
-      cancelled: {},
-    },
-    "2024-02-06": {
-      planned: {
-        1706661367076: {
-          planId: 1706661367076,
-          displayName: "test 3",
-          displayContent: "",
-          planDate: "2024-02-06",
-          startTime: "",
-          endTime: "",
-          eventType: "Personal",
-          category: "planned",
-          checkListItems: [],
-          checkListStatus: false,
-        },
-      },
-      executed: {},
-      cancelled: {},
-    },
-    "2024-02-16": {
-      planned: {
-        1706661359358: {
-          planId: 1706661359358,
-          displayName: "test 2",
-          displayContent: "",
-          planDate: "2024-02-16",
-          startTime: "",
-          endTime: "",
-          eventType: "Personal",
-          category: "planned",
-          checkListItems: [],
-          checkListStatus: false,
-        },
-      },
-      executed: {},
-      cancelled: {},
-    },
-  };
-
+const History = ({ plans }) => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [planHistory, setPlanHistory] = useState([]);
 

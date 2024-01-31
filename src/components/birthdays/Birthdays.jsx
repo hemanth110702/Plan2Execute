@@ -29,7 +29,6 @@ const Birthdays = ({birthdays, setBirthdays}) => {
       (dobs) => dobs.dob === presentDate
     );
     setPresentBds(tempPresentBds);
-    console.log("useeffe", birthdays);
   }, [birthdays]);
 
   const addDob = (e) => {
