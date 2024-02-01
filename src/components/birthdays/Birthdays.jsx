@@ -21,14 +21,16 @@ const Birthdays = ({birthdays, setBirthdays}) => {
     const presentDate = `${year}-${(monthInd + 1)
       .toString()
       .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
-    const tempMonthlyBds = birthdays[month].filter(
-      (dobs) => dobs.dob > presentDate
-    );
-    setMonthlyBds(tempMonthlyBds);
-    const tempPresentBds = birthdays[month].filter(
-      (dobs) => dobs.dob === presentDate
-    );
-    setPresentBds(tempPresentBds);
+      if(birthdays[month]) {
+        const tempMonthlyBds = birthdays[month].filter(
+          (dobs) => dobs.dob > presentDate
+        );
+        setMonthlyBds(tempMonthlyBds);
+        const tempPresentBds = birthdays[month].filter(
+          (dobs) => dobs.dob === presentDate
+        );
+        setPresentBds(tempPresentBds);
+      }
   }, [birthdays]);
 
   const addDob = (e) => {
@@ -119,9 +121,9 @@ const Birthdays = ({birthdays, setBirthdays}) => {
         {months.map((month, index) => (
           <details>
             <summary>
-              {month} {birthdays[month].length}
+              {month} {birthdays[month]?.length}
             </summary>
-            {birthdays[month].map((bday) => (
+            { birthdays && birthdays[month] &&  birthdays[month].map((bday) => (
               <div>
                 {bday.dob} - {bday.name}
                 <button

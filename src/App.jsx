@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "./firebase/config";
+import { onAuthStateChanged, signOut, onIdTokenChanged } from "firebase/auth";
+import { auth, db } from "./firebase/config";
 import Home from "./components/Home";
 import Plans from "./components/plans/Plans";
 import History from "./components/History";
 import Birthdays from "./components/birthdays/Birthdays";
 import Notes from "./components/Notes";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import "./App.css";
 
 function App() {
-  const [user, setUser] = useState(auth?.currentUser?.displayName);
-  const navigate = useNavigate();
   const [plans, setPlans] = useState({});
   const [notes, setNotes] = useState({});
   const [birthdays, setBirthdays] = useState({
@@ -29,16 +28,120 @@ function App() {
     December: [],
   });
 
+  const p2eCollectionRef = collection(db, "p2eData");
+  const [user, setUser] = useState(auth?.currentUser?.displayName);
+  const navigate = useNavigate();
+
+  const getData = async () => {
+    try {
+      if (user) {
+        const userDataRef = doc(p2eCollectionRef, user);
+        const docSnapshot = await getDocs(userDataRef);
+
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          setPlans(userData?.plans || plans);
+          setNotes(userData?.notes || notes);
+          setBirthdays(userData?.birthdays || birthdays);
+        } else {
+          // If the document does not exist, create it with initial data
+          await setDoc(userDataRef, {
+            plans: {},
+            notes: {},
+            birthdays: {
+              January: [],
+              February: [],
+              March: [],
+              April: [],
+              May: [],
+              June: [],
+              July: [],
+              August: [],
+              September: [],
+              October: [],
+              November: [],
+              December: [],
+            },
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Error getting data: ", err);
+    }
+  };
+
+  const updateFirebaseData = async () => {
+    try {
+      if (user) {
+        const userDataRef = doc(p2eCollectionRef, user);
+        const docSnapshot = await getDocs(userDataRef);
+
+        if (docSnapshot.exists()) {
+          await updateDoc(userDataRef, {
+            plans,
+            notes,
+            birthdays,
+          });
+        } else {
+          console.error(
+            "User data not found. Document should exist at this point."
+          );
+        }
+      } else {
+        console.error("Invalid user path for updating data");
+      }
+    } catch (err) {
+      console.error("Error updating data: ", err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    updateFirebaseData();
+  }, [plans, birthdays, notes]);
+
   // navigate to home, when user logout
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribeAuthState = onAuthStateChanged(auth, (user) => {
       if (!user) {
+        // User is not logged in
         navigate("/");
         setUser(null);
+      } else {
+        // User is logged in
+        setUser(user.displayName);
+
+        const unsubscribeIdTokenChanged = onIdTokenChanged(
+          auth,
+          async (newUser) => {
+            if (!newUser) {
+              // Token expired or user logged out
+              navigate("/");
+              setUser(null);
+            } else {
+              // Token refreshed, or new user logged in
+              setUser(newUser.displayName);
+              // You might want to re-fetch user-specific data here if needed
+              getData();
+            }
+          }
+        );
+
+        return () => {
+          // Clean up the onIdTokenChanged listener when the component unmounts
+          unsubscribeIdTokenChanged();
+        };
       }
     });
-    return () => unsubscribe();
-  }, [navigate, setUser]);
+
+    return () => {
+      // Clean up the onAuthStateChanged listener when the component unmounts
+      unsubscribeAuthState();
+    };
+  }, [navigate, setUser, getData]);
 
   const logout = () => {
     try {
