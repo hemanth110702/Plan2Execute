@@ -35,7 +35,7 @@ function App() {
   const getData = async () => {
     try {
       if (user) {
-        const userDataRef = doc(p2eCollectionRef, user);
+        const userDataRef = doc(p2eCollectionRef, user); // Use doc function here
         const docSnapshot = await getDocs(userDataRef);
 
         if (docSnapshot.exists()) {
@@ -46,22 +46,9 @@ function App() {
         } else {
           // If the document does not exist, create it with initial data
           await setDoc(userDataRef, {
-            plans: {},
-            notes: {},
-            birthdays: {
-              January: [],
-              February: [],
-              March: [],
-              April: [],
-              May: [],
-              June: [],
-              July: [],
-              August: [],
-              September: [],
-              October: [],
-              November: [],
-              December: [],
-            },
+            plans,
+            notes,
+            birthdays,
           });
         }
       }
