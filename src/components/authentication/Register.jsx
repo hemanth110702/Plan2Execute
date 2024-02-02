@@ -16,6 +16,7 @@ const Register = ({ setDisplayLogin }) => {
     e.preventDefault();
 
     try {
+      // Create user
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -23,23 +24,77 @@ const Register = ({ setDisplayLogin }) => {
       );
 
       // Update user display name
-      await updateProfile(userCredential.user, {
-        displayName: displayName,
+      await updateProfile(userCredential.user, { displayName });
+
+      // Set up initial plans in Firestore for the user
+      const userDocRef = doc(
+        collection(db, "p2eData"),
+        userCredential.user.uid
+      );
+      await setDoc(userDocRef, {
+        plans: {}, // Add initial plans data here if needed
+        notes: {}, // Add initial notes data here if needed
+        birthdays: {
+          January: [],
+          February: [],
+          March: [],
+          April: [],
+          May: [],
+          June: [],
+          July: [],
+          August: [],
+          September: [],
+          October: [],
+          November: [],
+          December: [],
+        },
       });
+
+      // Sign out after registration (you can remove this if it's not needed)
       signOut(auth);
     } catch (error) {
       console.error("Error signing up:", error.message);
     }
   };
 
-  const googleRegister = async () => {
-    try {
-      await signInWithPopup(auth, googleAuth);
-    } catch (err) {
-      console.log(err);
-    }
-    signOut(auth);
-  };
+ const googleRegister = async () => {
+   try {
+     // Sign in with Google
+     const result = await signInWithPopup(auth, googleAuth);
+
+     // Check if the user is new
+     const isNewUser = result.additionalUserInfo.isNewUser;
+
+     // If the user is new, set up initial plans in Firestore
+     if (isNewUser) {
+       const user = result.user;
+
+       const userDocRef = doc(collection(db, "p2eData"), user.uid);
+       await setDoc(userDocRef, {
+         plans: {}, // Add initial plans data here if needed
+         notes: {}, // Add initial notes data here if needed
+         birthdays: {
+           January: [],
+           February: [],
+           March: [],
+           April: [],
+           May: [],
+           June: [],
+           July: [],
+           August: [],
+           September: [],
+           October: [],
+           November: [],
+           December: [],
+         },
+       });
+     }
+   } catch (err) {
+     console.log(err);
+   }
+   signOut(auth);
+ };
+
 
   return (
     <div>

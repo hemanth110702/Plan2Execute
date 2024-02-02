@@ -8,6 +8,7 @@ import History from "./components/History";
 import Birthdays from "./components/birthdays/Birthdays";
 import Notes from "./components/Notes";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import Analysis from "./components/Analysis";
 import "./App.css";
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
   const getData = async () => {
     try {
       if (user) {
-        const userDataRef = doc(p2eCollectionRef, user); // Use doc function here
+        const userDataRef = doc(p2eCollectionRef, user);
         const docSnapshot = await getDocs(userDataRef);
 
         if (docSnapshot.exists()) {
@@ -44,7 +45,6 @@ function App() {
           setNotes(userData?.notes || notes);
           setBirthdays(userData?.birthdays || birthdays);
         } else {
-          // If the document does not exist, create it with initial data
           await setDoc(userDataRef, {
             plans,
             notes,
@@ -198,6 +198,16 @@ function App() {
                 Notes
               </NavLink>
             </p>
+            <p>
+              <NavLink
+                to={`/${user}/analysis`}
+                style={({ isActive }) => {
+                  return isActive ? activateLink : {};
+                }}
+              >
+                Analysis
+              </NavLink>
+            </p>
           </div>
           <div className="nav-user">
             <h3>{user}</h3>
@@ -230,6 +240,7 @@ function App() {
             path="notes"
             element={<Notes notes={notes} setNotes={setNotes} />}
           />
+          <Route path="analysis" element={<Analysis />} />
         </Route>
       </Routes>
     </>
