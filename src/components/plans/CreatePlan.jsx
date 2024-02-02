@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { dateToString } from "../../functions/operations";
+import { days } from "../../staticData/CalenderCollection";
 
 const CreatePlan = ({
   selectedRegister,
@@ -20,8 +21,11 @@ const CreatePlan = ({
     const planDate = formData.get("date");
     const startTime = formData.get("start-time");
     const endTime = formData.get("end-time");
-    const eventType = formData.get("eventType") || "Other";
+    const eventType = formData.get("eventType");
     const planId = Date.now();
+
+    const plannedDate = new Date(planDate);
+    const planDay = days[plannedDate.getDay()];
 
     if (plans && plans[planDate]) {
       const newPlan = Object.assign({}, plans);
@@ -32,6 +36,7 @@ const CreatePlan = ({
             displayName,
             displayContent,
             planDate,
+            planDay,
             startTime,
             endTime,
             eventType,
@@ -52,6 +57,7 @@ const CreatePlan = ({
               displayName,
               displayContent,
               planDate,
+              planDay,
               startTime,
               endTime,
               eventType,
