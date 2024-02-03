@@ -10,6 +10,7 @@ import Notes from "./components/Notes";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import Analysis from "./components/Analysis";
 import "./App.css";
+import Feedback from "./components/feedback";
 
 function App() {
   const [plans, setPlans] = useState({});
@@ -208,6 +209,16 @@ function App() {
                 Analysis
               </NavLink>
             </p>
+            <p>
+              <NavLink
+                to={`/${user}/feedback`}
+                style={({ isActive }) => {
+                  return isActive ? activateLink : {};
+                }}
+              >
+                Feedback
+              </NavLink>
+            </p>
           </div>
           <div className="nav-user">
             <h3>{user}</h3>
@@ -241,6 +252,7 @@ function App() {
             element={<Notes notes={notes} setNotes={setNotes} />}
           />
           <Route path="analysis" element={<Analysis />} />
+          <Route path="feedback" element={<Feedback />} />
         </Route>
       </Routes>
     </>
