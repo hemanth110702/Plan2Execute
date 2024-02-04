@@ -1,6 +1,5 @@
 add simple analysis page- group and individual , according days , ...
 add clear button beside search in notes
-add a feedback page
 add birthday check and add to present plans functionality // link birthdays and plan
 duplicate tasks
 repeat tasks
@@ -11,7 +10,5 @@ add birthday to present plan if there is birthday today
 tick mark beside event type counter
 add remaining state in eventTypeCounter per: 3 (4)
 add upcoming days in upcoming
-cntrl + n - to create plan
-esc - to close the plan
-dont allow the user to select date before today
 check before selecting an view note
+

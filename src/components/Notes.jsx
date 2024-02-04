@@ -64,8 +64,8 @@ const Notes = ({ notes, setNotes }) => {
           placeholder="Search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-        />
-
+        />{" "}
+        <button onClick={() => setSearchTerm("")}>Clear</button>
         {filteredNotes.map((note) => (
           <h2 key={note.noteId} onClick={() => viewNote(note)}>
             {note.title}

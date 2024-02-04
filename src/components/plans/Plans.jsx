@@ -10,10 +10,18 @@ const Plans = ({ user, setUser, plans, setPlans }) => {
   const [selectedRegister, setSelectedRegister] = useState({
     date: "",
   });
- 
-  useEffect(() => {
 
-    console.log("updatedPlans",plans);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "n" || e.key === "N") {
+      setShowCreatePlan((_) => true);
+    }
+   /*  if (e.key === "Escape") {
+      setShowCreatePlan((_) => false);
+    } */
+  });
+
+  useEffect(() => {
+    console.log("updatedPlans", plans);
   }, [plans]);
 
   return (
