@@ -251,7 +251,7 @@ function App() {
             path="notes"
             element={<Notes notes={notes} setNotes={setNotes} />}
           />
-          <Route path="analysis" element={<Analysis />} />
+          <Route path="analysis" element={<Analysis plans={plans} birthdays={birthdays} notes={notes} />} />
           <Route path="feedback" element={<Feedback />} />
         </Route>
       </Routes>
